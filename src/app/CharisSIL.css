@@ -1,0 +1,40 @@
+/* Charis SIL Font Faces */
+@font-face {
+  font-family: "Charis SIL";
+  src:
+    local("Charis SIL"),
+    url("/yindian/fonts/CharisSIL/CharisSIL-Regular.woff2") format("woff2"),
+    url("/yindian/fonts/CharisSIL/CharisSIL-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Charis SIL";
+  src:
+    local("Charis SIL Italic"),
+    url("/yindian/fonts/CharisSIL/CharisSIL-Italic.woff2") format("woff2"),
+    url("/yindian/fonts/CharisSIL/CharisSIL-Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Charis SIL";
+  src:
+    local("Charis SIL Bold"),
+    url("/yindian/fonts/CharisSIL/CharisSIL-Bold.woff2") format("woff2"),
+    url("/yindian/fonts/CharisSIL/CharisSIL-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Charis SIL";
+  src:
+    local("Charis SIL Bold Italic"),
+    url("/yindian/fonts/CharisSIL/CharisSIL-BoldItalic.woff2") format("woff2"),
+    url("/yindian/fonts/CharisSIL/CharisSIL-BoldItalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}

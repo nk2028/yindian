@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     "Guangyun",
   ],
   icons: {
-    icon: "/yindian-icon.svg",
+    icon: "/icon.svg",
   },
 };
 
@@ -31,11 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-HK">
-      <body
-        className="antialiased"
-      >
-        {children}
-      </body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }

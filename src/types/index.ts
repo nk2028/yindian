@@ -1,4 +1,3 @@
-
 /**
  * API response wrapper with version
  */
@@ -60,12 +59,12 @@ export interface DisplayModeConfig {
 /**
  * Language code for UI
  */
-export type Language = 'zh_HK' | 'zh_CN' | 'en_GB' | 'ja';
+export type Language = "zh_HK" | "zh_CN" | "en_GB" | "ja";
 
 /**
  * Theme mode
  */
-export type Theme = 'light' | 'dark';
+export type Theme = "light" | "dark";
 
 /**
  * 廣韻字段名稱

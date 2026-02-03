@@ -1,21 +1,21 @@
-import { zh_HK } from './i18n/zh_HK';
-import { zh_CN } from './i18n/zh_CN';
-import { en_GB } from './i18n/en_GB';
-import { ja } from './i18n/ja';
+import { zh_HK } from "./i18n/zh_HK";
+import { zh_CN } from "./i18n/zh_CN";
+import { en_GB } from "./i18n/en_GB";
+import { ja } from "./i18n/ja";
 
-export type Language = 'zh_HK' | 'zh_CN' | 'en_GB' | 'ja';
+export type Language = "zh_HK" | "zh_CN" | "en_GB" | "ja";
 
 export const LANGUAGE_DISPLAY_NAMES: Record<Language, string> = {
-  'zh_HK': '中文（繁體）',
-  'zh_CN': '中文（简体）',
-  'en_GB': 'English',
-  'ja': '日本語',
+  zh_HK: "中文（繁體）",
+  zh_CN: "中文（简体）",
+  en_GB: "English",
+  ja: "日本語",
 };
 
 export interface Translations {
   // Page title
   pageTitle: string;
-  
+
   // Navigation
   nav: {
     title: string;
@@ -23,7 +23,7 @@ export interface Translations {
     settings: string;
     about: string;
   };
-  
+
   // Query page
   query: {
     title: string;
@@ -34,7 +34,7 @@ export interface Translations {
     tableLanguage: string;
     noResults: string;
   };
-  
+
   // Settings page
   settings: {
     title: string;
@@ -57,7 +57,7 @@ export interface Translations {
     clearCacheButton: string;
     clearCacheConfirm: string;
   };
-  
+
   // Language Detail Modal
   languageDetail: {
     region: string;
@@ -65,7 +65,7 @@ export interface Translations {
     coordinates: string;
     noMapData: string;
   };
-  
+
   // About page
   about: {
     title: string;
@@ -103,7 +103,7 @@ const translations: Record<Language, Translations> = {
 };
 
 export function getTranslation(language: Language): Translations {
-  return translations[language] || translations['zh_HK']; // Fallback to zh_HK if language not found
+  return translations[language] || translations["zh_HK"]; // Fallback to zh_HK if language not found
 }
 
 export function formatString(template: string, values: Record<string, any>): string {

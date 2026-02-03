@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 
@@ -18,11 +18,7 @@ interface ThemeProviderProps {
   switchable?: boolean;
 }
 
-export function ThemeProvider({
-  children,
-  defaultTheme = "light",
-  switchable = false,
-}: ThemeProviderProps) {
+export function ThemeProvider({ children, defaultTheme = "light", switchable = false }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(() => {
     if (switchable) {
       const stored = localStorage.getItem("theme");
@@ -50,11 +46,7 @@ export function ThemeProvider({
       }
     : undefined;
 
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, switchable }}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={{ theme, toggleTheme, switchable }}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme() {

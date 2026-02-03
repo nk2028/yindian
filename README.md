@@ -17,23 +17,6 @@
 - **樣式**: Tailwind CSS
 - **構建工具**: Next.js
 
-## 項目結構
-
-```
-client/
-  public/       # 靜態資源
-  src/
-    pages/      # 頁面組件
-    components/ # 可復用 UI 組件
-    contexts/   # React contexts (狀態管理)
-    hooks/      # 自定義 React hooks
-    lib/        # 工具函數和 API 調用
-    types/      # TypeScript 類型定義
-    App.tsx     # 路由和頂層布局
-    main.tsx    # React 入口點
-    index.css   # 全局樣式
-```
-
 ## 開發
 
 ```bash
@@ -49,10 +32,6 @@ pnpm next build
 # 預覽生產構建
 pnpm next start
 ```
-
-## GitHub Pages 部署
-
-本項目已配置 GitHub Actions 自動部署。推送到 `main` 分支時將自動構建並部署到 GitHub Pages。
 
 ## GitHub 仓庫
 
@@ -79,9 +58,3 @@ pnpm next start
 - Telegram 群組: https://t.me/nk2028
 - 發送電郵至: support@nk2028.shn.hk
 - QQ 找綾香
-
-## 致謝
-
-- Maigo: MCPDict 原作者
-- 漢字音典 APP 開發團隊
-- nk2028: 音典網頁版開發維護

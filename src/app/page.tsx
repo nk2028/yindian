@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -25,20 +25,18 @@ function Navigation() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-14">
           <div className="flex items-center gap-2">
-            <img src="/yindian/yindian-icon.svg" alt="音典" className="w-8 h-8 invert" />
+            <img src="/yindian/icon.svg" alt="音典" className="w-8 h-8 invert" />
             <span className="text-xl font-bold tracking-tight [:lang(en)_&]:tracking-wide">{t.nav.title}</span>
           </div>
           <div className="flex gap-2">
-            {navItems.map((item) => (
+            {navItems.map(item => (
               <input
                 key={item.key}
                 value={item.label}
                 type="button"
                 onClick={() => setPage(item.key)}
                 className={`px-4 py-2 text-sm font-bold transition-colors rounded-full ${
-                  page === item.key
-                    ? "bg-white text-[#EB0000]"
-                    : "text-white hover:bg-gray-200 hover:text-gray-800"
+                  page === item.key ? "bg-white text-[#EB0000]" : "text-white hover:bg-gray-200 hover:text-gray-800"
                 }`}
               />
             ))}
@@ -52,41 +50,35 @@ function Navigation() {
 function PageSelector() {
   const { page, language, settings } = useApp();
   const t = getTranslation(language);
-  
+
   // Update document title and lang attribute when language changes
   useEffect(() => {
     document.title = t.pageTitle;
-    
+
     // Map language codes to HTML lang attribute values
     const langMap: Record<Language, string> = {
-      'zh_HK': 'zh-HK',
-      'zh_CN': 'zh-CN',
-      'en_GB': 'en-GB',
-      'ja': 'ja',
+      zh_HK: "zh-HK",
+      zh_CN: "zh-CN",
+      en_GB: "en-GB",
+      ja: "ja",
     };
-    
+
     document.documentElement.lang = langMap[language];
   }, [language, t.pageTitle]);
-  
+
   // Apply theme to html element
   useEffect(() => {
-    if (settings.theme === 'dark') {
-      document.documentElement.classList.add('dark');
+    if (settings.theme === "dark") {
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove("dark");
     }
   }, [settings.theme]);
-  
+
   return (
     <>
       <Navigation />
-      {page === "query" ? (
-        <Query />
-      ) : page === "settings" ? (
-        <Settings />
-      ) : page === "about" ? (
-        <About />
-      ) : null}
+      {page === "query" ? <Query /> : page === "settings" ? <Settings /> : page === "about" ? <About /> : null}
     </>
   );
 }

@@ -1,7 +1,6 @@
 @import "tailwindcss";
-/* @import "tw-animate-css"; */
-@import "./fonts.css";
-
+@import "./CharisSIL.css";
+@import "./SBBWeb.css";
 
 /* Swiss SBB Modern Style - Design Tokens
  * Movement: Contemporary Swiss Design (2020s SBB branding)
@@ -56,47 +55,47 @@
   --primary-foreground: oklch(1 0 0);
   --sidebar-primary: oklch(0.55 0.22 27);
   --sidebar-primary-foreground: oklch(1 0 0);
-  
+
   /* Sharp corners everywhere */
   --radius: 0px;
-  
+
   /* Light background with dark text */
   --background: oklch(0.98 0 0);
-  --foreground: oklch(0.20 0 0);
+  --foreground: oklch(0.2 0 0);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.20 0 0);
+  --card-foreground: oklch(0.2 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.20 0 0);
-  
+  --popover-foreground: oklch(0.2 0 0);
+
   /* Light gray tones */
   --secondary: oklch(0.96 0 0);
-  --secondary-foreground: oklch(0.20 0 0);
+  --secondary-foreground: oklch(0.2 0 0);
   --muted: oklch(0.94 0 0);
-  --muted-foreground: oklch(0.50 0 0);
+  --muted-foreground: oklch(0.5 0 0);
   --accent: oklch(0.55 0.22 27);
   --accent-foreground: oklch(1 0 0);
-  
+
   /* Red for emphasis */
   --destructive: oklch(0.55 0.22 27);
   --destructive-foreground: oklch(1 0 0);
-  
+
   /* Subtle borders */
   --border: oklch(0.88 0 0);
   --input: oklch(0.96 0 0);
   --ring: oklch(0.55 0.22 27);
-  
+
   /* Sidebar */
   --sidebar: oklch(0.98 0 0);
-  --sidebar-foreground: oklch(0.20 0 0);
+  --sidebar-foreground: oklch(0.2 0 0);
   --sidebar-accent: oklch(0.94 0 0);
-  --sidebar-accent-foreground: oklch(0.20 0 0);
+  --sidebar-accent-foreground: oklch(0.2 0 0);
   --sidebar-border: oklch(0.88 0 0);
   --sidebar-ring: oklch(0.55 0.22 27);
-  
+
   /* Charts */
   --chart-1: oklch(0.65 0.18 27);
   --chart-2: oklch(0.55 0.22 27);
-  --chart-3: oklch(0.45 0.20 27);
+  --chart-3: oklch(0.45 0.2 27);
   --chart-4: oklch(0.35 0.18 27);
   --chart-5: oklch(0.25 0.15 27);
 }
@@ -108,31 +107,31 @@
   --sidebar-primary-foreground: oklch(1 0 0);
   --background: oklch(0.15 0 0);
   --foreground: oklch(0.95 0 0);
-  --card: oklch(0.20 0 0);
+  --card: oklch(0.2 0 0);
   --card-foreground: oklch(0.95 0 0);
-  --popover: oklch(0.20 0 0);
+  --popover: oklch(0.2 0 0);
   --popover-foreground: oklch(0.95 0 0);
   --secondary: oklch(0.25 0 0);
   --secondary-foreground: oklch(0.95 0 0);
-  --muted: oklch(0.30 0 0);
+  --muted: oklch(0.3 0 0);
   --muted-foreground: oklch(0.65 0 0);
   --accent: oklch(0.55 0.22 27);
   --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.65 0.20 27);
+  --destructive: oklch(0.65 0.2 27);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.30 0 0);
+  --border: oklch(0.3 0 0);
   --input: oklch(0.25 0 0);
   --ring: oklch(0.55 0.22 27);
   --chart-1: oklch(0.65 0.18 27);
   --chart-2: oklch(0.55 0.22 27);
-  --chart-3: oklch(0.45 0.20 27);
+  --chart-3: oklch(0.45 0.2 27);
   --chart-4: oklch(0.35 0.18 27);
   --chart-5: oklch(0.25 0.15 27);
-  --sidebar: oklch(0.20 0 0);
+  --sidebar: oklch(0.2 0 0);
   --sidebar-foreground: oklch(0.95 0 0);
-  --sidebar-accent: oklch(0.30 0 0);
+  --sidebar-accent: oklch(0.3 0 0);
   --sidebar-accent-foreground: oklch(1 0 0);
-  --sidebar-border: oklch(0.30 0 0);
+  --sidebar-border: oklch(0.3 0 0);
   --sidebar-ring: oklch(0.55 0.22 27);
 }
 
@@ -140,7 +139,8 @@
   * {
     @apply border-border outline-ring/50;
   }
-  html, body {
+  html,
+  body {
     @apply bg-background text-foreground;
     font-family: "SBB", "Helvetica Neue", Helvetica, Arial, sans-serif;
     overflow-y: auto;
@@ -192,8 +192,9 @@
 }
 
 /* Language-specific font styles */
-:lang(zh-Latn), :lang(zh-Cyrl) {
-  font-family: 'Charis SIL', serif;
+:lang(zh-Latn),
+:lang(zh-Cyrl) {
+  font-family: "Charis SIL", serif;
   font-style: italic;
 }
 

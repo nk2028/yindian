@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useApp } from "@/contexts/AppContext";
 import { getDisplayModeLabel } from "@/lib/dataProcessor";
@@ -9,24 +9,24 @@ import { getTranslation, formatString } from "@/lib/i18n";
 
 // Calculate text color (black or white) based on background color brightness
 function getTextColor(bgColor: string | null | undefined): string {
-  if (!bgColor) return '#000000'; // Default to black if no color
-  
+  if (!bgColor) return "#000000"; // Default to black if no color
+
   // Remove # if present
-  const hex = bgColor.replace('#', '');
-  
+  const hex = bgColor.replace("#", "");
+
   // Handle invalid hex colors
-  if (hex.length !== 6) return '#000000';
-  
+  if (hex.length !== 6) return "#000000";
+
   // Convert to RGB
   const r = parseInt(hex.substr(0, 2), 16);
   const g = parseInt(hex.substr(2, 2), 16);
   const b = parseInt(hex.substr(4, 2), 16);
-  
+
   // Calculate relative luminance (perceived brightness)
   const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-  
+
   // Return black for light backgrounds, white for dark backgrounds
-  return luminance > 0.5 ? '#000000' : '#FFFFFF';
+  return luminance > 0.5 ? "#000000" : "#FFFFFF";
 }
 
 export default function Settings() {
@@ -51,16 +51,14 @@ export default function Settings() {
     if (!searchTerm.trim()) return processedLanguages;
     const term = searchTerm.toLowerCase();
     return processedLanguages.filter(
-      (lang) =>
-        lang.name.toLowerCase().includes(term) ||
-        lang.abbreviation.toLowerCase().includes(term)
+      lang => lang.name.toLowerCase().includes(term) || lang.abbreviation.toLowerCase().includes(term),
     );
   }, [processedLanguages, searchTerm]);
 
   // Group languages by region for visual organization
   const languagesByRegion = useMemo(() => {
     const groups = new Map<string, typeof processedLanguages>();
-    filteredLanguages.forEach((lang) => {
+    filteredLanguages.forEach(lang => {
       const region = lang.region;
       if (!groups.has(region)) {
         groups.set(region, []);
@@ -83,52 +81,38 @@ export default function Settings() {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-4 text-[#EB0000] pb-3 border-b-2 border-[#EB0000]">
-          {t.settings.title}
-        </h1>
+        <h1 className="text-3xl font-bold mb-4 text-[#EB0000] pb-3 border-b-2 border-[#EB0000]">{t.settings.title}</h1>
 
         {/* Interface Language Section */}
         <section className="mb-4 bg-card p-4 shadow-sm">
           <h2 className="text-lg font-bold mb-3 text-foreground">{t.settings.interfaceLanguage}</h2>
           <div className="flex gap-2 flex-wrap">
             <button
-              onClick={() => updateLanguage('zh_HK')}
+              onClick={() => updateLanguage("zh_HK")}
               className={`px-6 py-1.5 text-sm font-medium transition-colors rounded-full ${
-                language === 'zh_HK'
-                  ? "bg-[#EB0000] text-white"
-                  : "bg-card text-card-foreground hover:bg-secondary"
-              }`}
-            >
+                language === "zh_HK" ? "bg-[#EB0000] text-white" : "bg-card text-card-foreground hover:bg-secondary"
+              }`}>
               中文(繁體)
             </button>
             <button
-              onClick={() => updateLanguage('zh_CN')}
+              onClick={() => updateLanguage("zh_CN")}
               className={`px-6 py-1.5 text-sm font-medium transition-colors rounded-full ${
-                language === 'zh_CN'
-                  ? "bg-[#EB0000] text-white"
-                  : "bg-card text-card-foreground hover:bg-secondary"
-              }`}
-            >
+                language === "zh_CN" ? "bg-[#EB0000] text-white" : "bg-card text-card-foreground hover:bg-secondary"
+              }`}>
               中文(简体)
             </button>
             <button
-              onClick={() => updateLanguage('en_GB')}
+              onClick={() => updateLanguage("en_GB")}
               className={`px-6 py-1.5 text-sm font-medium transition-colors rounded-full ${
-                language === 'en_GB'
-                  ? "bg-[#EB0000] text-white"
-                  : "bg-card text-card-foreground hover:bg-secondary"
-              }`}
-            >
+                language === "en_GB" ? "bg-[#EB0000] text-white" : "bg-card text-card-foreground hover:bg-secondary"
+              }`}>
               English
             </button>
             <button
-              onClick={() => updateLanguage('ja')}
+              onClick={() => updateLanguage("ja")}
               className={`px-6 py-1.5 text-sm font-medium transition-colors rounded-full ${
-                language === 'ja'
-                  ? "bg-[#EB0000] text-white"
-                  : "bg-card text-card-foreground hover:bg-secondary"
-              }`}
-            >
+                language === "ja" ? "bg-[#EB0000] text-white" : "bg-card text-card-foreground hover:bg-secondary"
+              }`}>
               日本語
             </button>
           </div>
@@ -139,23 +123,21 @@ export default function Settings() {
           <h2 className="text-lg font-bold mb-3 text-foreground">{t.settings.theme}</h2>
           <div className="flex gap-2">
             <button
-              onClick={() => updateTheme('light')}
+              onClick={() => updateTheme("light")}
               className={`px-6 py-1.5 text-sm font-medium transition-colors rounded-full ${
-                settings.theme === 'light'
+                settings.theme === "light"
                   ? "bg-[#EB0000] text-white"
                   : "bg-card text-card-foreground hover:bg-secondary"
-              }`}
-            >
+              }`}>
               {t.settings.themeLight}
             </button>
             <button
-              onClick={() => updateTheme('dark')}
+              onClick={() => updateTheme("dark")}
               className={`px-6 py-1.5 text-sm font-medium transition-colors rounded-full ${
-                settings.theme === 'dark'
+                settings.theme === "dark"
                   ? "bg-[#EB0000] text-white"
                   : "bg-card text-card-foreground hover:bg-secondary"
-              }`}
-            >
+              }`}>
               {t.settings.themeDark}
             </button>
           </div>
@@ -165,7 +147,7 @@ export default function Settings() {
         <section className="mb-4 bg-card p-4 shadow-sm">
           <h2 className="text-lg font-bold mb-3 text-foreground">{t.settings.displayMode}</h2>
           <div className="flex gap-2">
-            {displayModes.map((mode) => (
+            {displayModes.map(mode => (
               <button
                 key={mode}
                 onClick={() => updateDisplayMode(mode)}
@@ -173,8 +155,7 @@ export default function Settings() {
                   settings.displayMode === mode
                     ? "bg-[#EB0000] text-white"
                     : "bg-card text-card-foreground hover:bg-secondary"
-                }`}
-              >
+                }`}>
                 {getDisplayModeLabel(mode)}
               </button>
             ))}
@@ -196,8 +177,7 @@ export default function Settings() {
                     }
                   });
                 }}
-                className="px-4 py-1.5 text-sm font-medium bg-[#EB0000] text-white hover:bg-[#C50000] transition-colors rounded-full"
-              >
+                className="px-4 py-1.5 text-sm font-medium bg-[#EB0000] text-white hover:bg-[#C50000] transition-colors rounded-full">
                 {t.settings.selectAll}
               </button>
               <button
@@ -208,8 +188,7 @@ export default function Settings() {
                     }
                   });
                 }}
-                className="px-4 py-1.5 text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors rounded-full"
-              >
+                className="px-4 py-1.5 text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors rounded-full">
                 {t.settings.deselectAll}
               </button>
             </div>
@@ -217,22 +196,19 @@ export default function Settings() {
 
           {/* Guangyun Fields Grid */}
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12">
-              {廣韻字段列表.map((field) => (
-                <label
-                  key={field}
-                  className="flex items-start gap-1 p-1 hover:bg-secondary cursor-pointer border-r border-b border text-xs leading-tight"
-                >
-                  <input
-                    type="checkbox"
-                    checked={settings.廣韻字段.has(field)}
-                    onChange={() => toggle廣韻字段(field)}
-                    className="w-3 h-3 mt-0.5 flex-shrink-0 accent-primary"
-                  />
-                  <span className="min-w-0 break-words text-foreground">
-                    {field}
-                  </span>
-                </label>
-              ))}
+            {廣韻字段列表.map(field => (
+              <label
+                key={field}
+                className="flex items-start gap-1 p-1 hover:bg-secondary cursor-pointer border-r border-b border text-xs leading-tight">
+                <input
+                  type="checkbox"
+                  checked={settings.廣韻字段.has(field)}
+                  onChange={() => toggle廣韻字段(field)}
+                  className="w-3 h-3 mt-0.5 flex-shrink-0 accent-primary"
+                />
+                <span className="min-w-0 break-words text-foreground">{field}</span>
+              </label>
+            ))}
           </div>
         </section>
 
@@ -245,14 +221,12 @@ export default function Settings() {
             <div className="flex gap-2">
               <button
                 onClick={selectAllLanguages}
-                className="px-4 py-1.5 text-sm font-medium bg-[#EB0000] text-white hover:bg-[#C50000] transition-colors rounded-full"
-              >
+                className="px-4 py-1.5 text-sm font-medium bg-[#EB0000] text-white hover:bg-[#C50000] transition-colors rounded-full">
                 {t.settings.selectAll}
               </button>
               <button
                 onClick={deselectAllLanguages}
-                className="px-4 py-1.5 text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors rounded-full"
-              >
+                className="px-4 py-1.5 text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors rounded-full">
                 {t.settings.deselectAll}
               </button>
             </div>
@@ -263,7 +237,7 @@ export default function Settings() {
             <input
               type="text"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={e => setSearchTerm(e.target.value)}
               placeholder="搜索语言..."
               className="w-full border-2 border-border px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-full bg-background text-foreground"
             />
@@ -272,36 +246,32 @@ export default function Settings() {
           {/* Ultra-dense Language Grid grouped by region */}
           <div className="border border-border">
             {languagesByRegion.map(([region, languages]) => {
-              const regionColor = languages[0]?.color || '#EB0000';
+              const regionColor = languages[0]?.color || "#EB0000";
               const textColor = getTextColor(regionColor);
               return (
-              <div key={region} className="border-b border-border last:border-b-0">
-                <div
-                  className="text-xs font-bold px-2 py-1 sticky top-0 z-10"
-                  style={{ backgroundColor: regionColor, color: textColor }}
-                >
-                  {region} ({languages.length})
+                <div key={region} className="border-b border-border last:border-b-0">
+                  <div
+                    className="text-xs font-bold px-2 py-1 sticky top-0 z-10"
+                    style={{ backgroundColor: regionColor, color: textColor }}>
+                    {region} ({languages.length})
+                  </div>
+                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12">
+                    {languages.map(lang => (
+                      <label
+                        key={lang.id}
+                        className="flex items-start gap-1 p-1 hover:bg-secondary cursor-pointer border-r border-b border text-xs leading-tight">
+                        <input
+                          type="checkbox"
+                          checked={settings.selectedLanguages.has(lang.id)}
+                          onChange={() => toggleLanguage(lang.id)}
+                          className="w-3 h-3 mt-0.5 flex-shrink-0 accent-primary"
+                        />
+                        <span className="min-w-0 break-words text-foreground">{lang.name}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12">
-                  {languages.map((lang) => (
-                    <label
-                      key={lang.id}
-                      className="flex items-start gap-1 p-1 hover:bg-secondary cursor-pointer border-r border-b border text-xs leading-tight"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={settings.selectedLanguages.has(lang.id)}
-                        onChange={() => toggleLanguage(lang.id)}
-                        className="w-3 h-3 mt-0.5 flex-shrink-0 accent-primary"
-                      />
-                      <span className="min-w-0 break-words text-foreground">
-                        {lang.name}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            );
+              );
             })}
           </div>
         </section>
@@ -320,8 +290,7 @@ export default function Settings() {
                   window.location.reload();
                 }
               }}
-              className="px-4 py-2 text-sm font-medium bg-[#EB0000] text-white hover:bg-[#C50000] transition-colors rounded-full"
-            >
+              className="px-4 py-2 text-sm font-medium bg-[#EB0000] text-white hover:bg-[#C50000] transition-colors rounded-full">
               {t.settings.clearCacheButton}
             </button>
           </div>

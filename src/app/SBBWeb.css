@@ -1,0 +1,28 @@
+/* SBB Web Font Faces */
+@font-face {
+  font-family: "SBB";
+  src: url("/yindian/fonts/SBBWeb_v1_9/SBBWeb-Thin.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SBB";
+  src: url("/yindian/fonts/SBBWeb_v1_9/SBBWeb-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SBB";
+  src: url("/yindian/fonts/SBBWeb_v1_9/SBBWeb-Roman.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SBB";
+  src: url("/yindian/fonts/SBBWeb_v1_9/SBBWeb-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}

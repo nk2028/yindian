@@ -33,13 +33,10 @@ export const DISPLAY_MODE_CONFIGS: Record<DisplayMode, DisplayModeConfig> = {
 /**
  * Process language data based on display mode
  */
-export function processLanguages(
-  languages: LanguageInfo[],
-  displayMode: DisplayMode
-): ProcessedLanguage[] {
+export function processLanguages(languages: LanguageInfo[], displayMode: DisplayMode): ProcessedLanguage[] {
   const config = DISPLAY_MODE_CONFIGS[displayMode];
 
-  return languages.map((lang) => ({
+  return languages.map(lang => ({
     id: Number(lang[0]),
     name: String(lang[1]),
     abbreviation: String(lang[2]),
@@ -57,11 +54,11 @@ export function processLanguages(
 export function buildTableRows(
   queryResults: CharacterResult[],
   processedLanguages: ProcessedLanguage[],
-  selectedLanguageIds: Set<number>
+  selectedLanguageIds: Set<number>,
 ): TableRow[] {
   // Create a map of language ID to language info for quick lookup
   const langMap = new Map<number, ProcessedLanguage>();
-  processedLanguages.forEach((lang) => {
+  processedLanguages.forEach(lang => {
     langMap.set(lang.id, lang);
   });
 
@@ -75,13 +72,13 @@ export function buildTableRows(
         lang字音映射.set(langId, {});
       }
       const lang字音 = lang字音映射.get(langId)!;
-      
+
       // Format: 字音 (note) if note exists, otherwise just 字音
       const displayText = note ? `${字音} (${note})` : 字音;
-      
+
       // If this language already has a 字音 for this character, append with separator
       if (lang字音[char]) {
-        lang字音[char] += '; ' + displayText;
+        lang字音[char] += "; " + displayText;
       } else {
         lang字音[char] = displayText;
       }
@@ -128,7 +125,7 @@ export function getDisplayModeLabel(mode: DisplayMode): string {
  * h: 漢字/文本
  * #: 其他
  */
-const 廣韻字段類型 = 'lllliiiiiiiiiiiiiih#hhhh';
+const 廣韻字段類型 = "lllliiiiiiiiiiiiiih#hhhh";
 
 /**
  * 包裝 IPA 音標
@@ -140,7 +137,7 @@ function wrapIPA(字音: string): string {
 /**
  * 包裝羅馬化
  */
-function wrapRomanization(字音: string, script: string = 'Latn'): string {
+function wrapRomanization(字音: string, script: string = "Latn"): string {
   return `<span lang="zh-${script}">${字音}</span>`;
 }
 
@@ -150,52 +147,47 @@ function wrapRomanization(字音: string, script: string = 'Latn'): string {
  * @param selectedFields 要提取的字段集合
  * @returns 格式化後的字串，只包含選中字段
  */
-export function parse廣韻字音(
-  字音: string,
-  selectedFields: Set<廣韻字段>
-): string {
+export function parse廣韻字音(字音: string, selectedFields: Set<廣韻字段>): string {
   // Handle multiple 字音 separated by '; '
-  if (字音.includes('; ')) {
-    const 字音列表 = 字音.split('; ');
-    return 字音列表
-      .map(p => parse廣韻字音(p, selectedFields))
-      .join('; ');
+  if (字音.includes("; ")) {
+    const 字音列表 = 字音.split("; ");
+    return 字音列表.map(p => parse廣韻字音(p, selectedFields)).join("; ");
   }
-  
+
   // Split by '/' to get all fields
-  const parts = 字音.split('/');
-  
+  const parts = 字音.split("/");
+
   // Handle short format (less than 24 fields) - just return as is
   // This happens when API returns simplified data like "rut" without full field breakdown
   if (parts.length < 廣韻字段列表.length) {
     return 字音;
   }
-  
+
   // Extract selected fields from full 24-field format with type wrapping
   const selectedParts: string[] = [];
   廣韻字段列表.forEach((field, index) => {
     if (selectedFields.has(field) && parts[index]) {
       let fieldValue = parts[index];
       const fieldType = 廣韻字段類型[index];
-      
+
       // Apply formatting based on field type
       switch (fieldType) {
-        case 'i':
+        case "i":
           fieldValue = wrapIPA(fieldValue);
           break;
-        case 'l':
+        case "l":
           fieldValue = wrapRomanization(fieldValue);
           break;
-        case 'c':
-          fieldValue = wrapRomanization(fieldValue, 'Cyrl');
+        case "c":
+          fieldValue = wrapRomanization(fieldValue, "Cyrl");
           break;
         // 'h' and '#' types don't need special wrapping
       }
-      
+
       selectedParts.push(fieldValue);
     }
   });
-  
+
   // Join with ' / ' for better readability
-  return selectedParts.length > 0 ? selectedParts.join(' / ') : 字音;
+  return selectedParts.length > 0 ? selectedParts.join(" / ") : 字音;
 }

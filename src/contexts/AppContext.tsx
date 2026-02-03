@@ -1,22 +1,8 @@
-'use client';
+"use client";
 
 import { processLanguages } from "@/lib/dataProcessor";
-import type {
-  DisplayMode,
-  廣韻字段,
-  Language,
-  LanguageInfo,
-  ProcessedLanguage,
-  Theme,
-  UserSettings,
-} from "@/types";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
+import type { DisplayMode, 廣韻字段, Language, LanguageInfo, ProcessedLanguage, Theme, UserSettings } from "@/types";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { fetchLanguages } from "@/lib/api";
 
 interface AppContextValue {
@@ -38,7 +24,7 @@ interface AppContextValue {
   // Current page
   page: string;
   setPage: (page: string) => void;
-  
+
   // UI language
   language: Language;
   updateLanguage: (lang: Language) => void;
@@ -56,12 +42,10 @@ const DEFAULT_SETTINGS: UserSettings = {
   displayMode: "地圖集二",
   selectedLanguages: new Set<number>(),
   廣韻字段: new Set<廣韻字段>(["切韻拼音", "切韻音系描述", "unt(2022)擬音", "反切"]), // Default fields
-  theme: 'light', // Default theme
+  theme: "light", // Default theme
 };
 
-const DEFAULT_LANGUAGE: Language = 'zh_HK';
-
-
+const DEFAULT_LANGUAGE: Language = "zh_HK";
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [rawLanguages, setRawLanguages] = useState<LanguageInfo[]>([]);
@@ -73,30 +57,30 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>(() => {
     // Try to load language from localStorage
     try {
-      const saved = localStorage.getItem('yindian-language');
+      const saved = localStorage.getItem("yindian-language");
       if (saved) {
         return saved as Language;
       }
     } catch (e) {
-      console.error('Failed to load language:', e);
+      console.error("Failed to load language:", e);
     }
     return DEFAULT_LANGUAGE;
   });
   const [settings, setSettings] = useState<UserSettings>(() => {
     // Try to load settings from localStorage
     try {
-      const saved = localStorage.getItem('yindian-settings');
+      const saved = localStorage.getItem("yindian-settings");
       if (saved) {
         const parsed = JSON.parse(saved);
         return {
           displayMode: parsed.displayMode as DisplayMode,
           selectedLanguages: new Set(parsed.selectedLanguages || []),
           廣韻字段: new Set<廣韻字段>(parsed.廣韻字段 || ["切韻拼音", "切韻音系描述"]),
-          theme: parsed.theme || 'light',
+          theme: parsed.theme || "light",
         };
       }
     } catch (e) {
-      console.error('Failed to load settings:', e);
+      console.error("Failed to load settings:", e);
     }
     return DEFAULT_SETTINGS;
   });
@@ -104,14 +88,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
   // Save settings to localStorage whenever they change
   useEffect(() => {
     try {
-      localStorage.setItem('yindian-settings', JSON.stringify({
-        displayMode: settings.displayMode,
-        selectedLanguages: Array.from(settings.selectedLanguages),
-        廣韻字段: Array.from(settings.廣韻字段),
-        theme: settings.theme,
-      }));
+      localStorage.setItem(
+        "yindian-settings",
+        JSON.stringify({
+          displayMode: settings.displayMode,
+          selectedLanguages: Array.from(settings.selectedLanguages),
+          廣韻字段: Array.from(settings.廣韻字段),
+          theme: settings.theme,
+        }),
+      );
     } catch (e) {
-      console.error('Failed to save settings:', e);
+      console.error("Failed to save settings:", e);
     }
   }, [settings]);
 
@@ -120,18 +107,18 @@ export function AppProvider({ children }: { children: ReactNode }) {
     let mounted = true;
 
     fetchLanguages()
-      .then((data) => {
+      .then(data => {
         if (!mounted) return;
         setRawLanguages(data);
         // Select all languages by default
-        const allIds = new Set(data.map((lang) => Number(lang[0])));
-        setSettings((prev) => ({
+        const allIds = new Set(data.map(lang => Number(lang[0])));
+        setSettings(prev => ({
           ...prev,
           selectedLanguages: allIds,
         }));
         setIsLoadingLanguages(false);
       })
-      .catch((error) => {
+      .catch(error => {
         if (!mounted) return;
         setLanguagesError(error);
         setIsLoadingLanguages(false);
@@ -143,17 +130,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // Process languages based on current display mode
-  const processedLanguages = processLanguages(
-    rawLanguages,
-    settings.displayMode
-  );
+  const processedLanguages = processLanguages(rawLanguages, settings.displayMode);
 
   const updateDisplayMode = (mode: DisplayMode) => {
-    setSettings((prev) => ({ ...prev, displayMode: mode }));
+    setSettings(prev => ({ ...prev, displayMode: mode }));
   };
 
   const toggleLanguage = (langId: number) => {
-    setSettings((prev) => {
+    setSettings(prev => {
       const newSelected = new Set(prev.selectedLanguages);
       if (newSelected.has(langId)) {
         newSelected.delete(langId);
@@ -165,16 +149,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const selectAllLanguages = () => {
-    const allIds = new Set(rawLanguages.map((lang) => Number(lang[0])));
-    setSettings((prev) => ({ ...prev, selectedLanguages: allIds }));
+    const allIds = new Set(rawLanguages.map(lang => Number(lang[0])));
+    setSettings(prev => ({ ...prev, selectedLanguages: allIds }));
   };
 
   const deselectAllLanguages = () => {
-    setSettings((prev) => ({ ...prev, selectedLanguages: new Set() }));
+    setSettings(prev => ({ ...prev, selectedLanguages: new Set() }));
   };
 
   const toggle廣韻字段 = (field: 廣韻字段) => {
-    setSettings((prev) => {
+    setSettings(prev => {
       const newFields = new Set(prev.廣韻字段);
       if (newFields.has(field)) {
         newFields.delete(field);
@@ -186,15 +170,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const updateTheme = (theme: Theme) => {
-    setSettings((prev) => ({ ...prev, theme }));
+    setSettings(prev => ({ ...prev, theme }));
   };
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     try {
-      localStorage.setItem('yindian-language', lang);
+      localStorage.setItem("yindian-language", lang);
     } catch (e) {
-      console.error('Failed to save language:', e);
+      console.error("Failed to save language:", e);
     }
   };
 
