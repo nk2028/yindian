@@ -39,9 +39,9 @@ export const en_GB: Translations = {
     clearCacheConfirm: 'Are you sure you want to clear all cache? The page will reload.',
   },
   languageDetail: {
-    region: 'Region',
-    location: 'Location',
-    coordinates: 'Coordinates',
+    region: 'Region:',
+    location: 'Location:',
+    coordinates: 'Coordinates:',
     noMapData: 'No map data available',
   },
   about: {

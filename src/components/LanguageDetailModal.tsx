@@ -1,3 +1,5 @@
+'use client';
+
 import { X } from "lucide-react";
 import type { ProcessedLanguage } from "@/types";
 import { useApp } from "@/contexts/AppContext";
@@ -50,16 +52,16 @@ export default function LanguageDetailModal({ language, onClose }: LanguageDetai
           {/* Language Info */}
           <div className="space-y-2">
             <div className="flex items-baseline gap-2">
-              <span className="font-bold text-foreground min-w-[80px]">{t.languageDetail.region}{uiLanguage === 'en_GB' ? ': ' : '：'}</span>
+              <span className="font-bold text-foreground min-w-[80px]">{t.languageDetail.region}</span>
               <span className="text-foreground">{language.region || '—'}</span>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="font-bold text-foreground min-w-[80px]">{t.languageDetail.location}{uiLanguage === 'en_GB' ? ': ' : '：'}</span>
+              <span className="font-bold text-foreground min-w-[80px]">{t.languageDetail.location}</span>
               <span className="text-foreground">{language.location || '—'}</span>
             </div>
             {language.coordinates && (
               <div className="flex items-baseline gap-2">
-                <span className="font-bold text-foreground min-w-[80px]">{t.languageDetail.coordinates}{uiLanguage === 'en_GB' ? ': ' : '：'}</span>
+                <span className="font-bold text-foreground min-w-[80px]">{t.languageDetail.coordinates}</span>
                 <span className="text-foreground">{language.coordinates}</span>
               </div>
             )}

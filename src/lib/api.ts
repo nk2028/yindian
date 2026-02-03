@@ -1,4 +1,3 @@
-
 import type { ApiResponse, CharacterResult, LanguageInfo } from "@/types";
 
 const API_BASE = "https://1305783649-j61pduj0mx.ap-guangzhou.tencentscf.com";
@@ -130,7 +129,6 @@ export async function queryCharacters(
     }
     
     const apiResponse = await response.json() as ApiResponse<CharacterResult[]>;
-    console.log("Query result:", apiResponse);
     
     // Check version and trigger language refresh if needed
     const cachedVersion = getCachedVersion();

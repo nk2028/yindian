@@ -1,3 +1,5 @@
+'use client';
+
 import { queryCharacters } from "@/lib/api";
 import { buildTableRows, parse廣韻字音 } from "@/lib/dataProcessor";
 import type { CharacterResult, ProcessedLanguage, TableRow } from "@/types";

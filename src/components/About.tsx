@@ -1,3 +1,5 @@
+'use client';
+
 import { useApp } from "@/contexts/AppContext";
 import { getTranslation } from "@/lib/i18n";
 
@@ -35,7 +37,7 @@ export default function About() {
             <div>
               <h3 className="font-bold text-lg mb-2 text-foreground">{t.about.github}</h3>
               <ul className="list-disc list-inside space-y-1.5 ml-4">
-                <li>{t.about.githubFrontend}: <a href="https://github.com/nk2028/yindian-manus" target="_blank" rel="noopener noreferrer" className="text-[#EB0000] hover:underline">https://github.com/nk2028/yindian-manus</a></li>
+                <li>{t.about.githubFrontend}: <a href="https://github.com/nk2028/yindian" target="_blank" rel="noopener noreferrer" className="text-[#EB0000] hover:underline">https://github.com/nk2028/yindian</a></li>
                 <li>{t.about.githubBackend}: <a href="https://github.com/nk2028/yindian-server" target="_blank" rel="noopener noreferrer" className="text-[#EB0000] hover:underline">https://github.com/nk2028/yindian-server</a></li>
               </ul>
             </div>
@@ -60,7 +62,7 @@ export default function About() {
             <div>
               <h3 className="font-bold text-lg mb-2 text-foreground">{t.about.feedback}</h3>
               <ul className="list-disc list-inside space-y-1.5 ml-4">
-                <li>{t.about.feedbackGithub}: <a href="https://github.com/nk2028/yindian-manus/issues" target="_blank" rel="noopener noreferrer" className="text-[#EB0000] hover:underline">https://github.com/nk2028/yindian-manus/issues</a></li>
+                <li>{t.about.feedbackGithub}: <a href="https://github.com/nk2028/yindian/issues" target="_blank" rel="noopener noreferrer" className="text-[#EB0000] hover:underline">https://github.com/nk2028/yindian/issues</a></li>
                 <li>{t.about.feedbackTelegram}: <a href="https://t.me/nk2028" target="_blank" rel="noopener noreferrer" className="text-[#EB0000] hover:underline">https://t.me/nk2028</a></li>
                 <li>{t.about.feedbackEmail}: <a href="mailto:support@nk2028.shn.hk" className="text-[#EB0000] hover:underline">support@nk2028.shn.hk</a></li>
                 <li>{t.about.feedbackQQ}</li>

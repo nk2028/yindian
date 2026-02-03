@@ -2,8 +2,8 @@
 @font-face {
   font-family: 'Charis SIL';
   src: local('Charis SIL'), 
-       url('/fonts/CharisSIL/CharisSIL-Regular.woff2') format('woff2'), 
-       url('/fonts/CharisSIL/CharisSIL-Regular.ttf') format('truetype');
+       url('/yindian/fonts/CharisSIL/CharisSIL-Regular.woff2') format('woff2'), 
+       url('/yindian/fonts/CharisSIL/CharisSIL-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -11,8 +11,8 @@
 @font-face {
   font-family: 'Charis SIL';
   src: local('Charis SIL Italic'), 
-       url('/fonts/CharisSIL/CharisSIL-Italic.woff2') format('woff2'), 
-       url('/fonts/CharisSIL/CharisSIL-Italic.ttf') format('truetype');
+       url('/yindian/fonts/CharisSIL/CharisSIL-Italic.woff2') format('woff2'), 
+       url('/yindian/fonts/CharisSIL/CharisSIL-Italic.ttf') format('truetype');
   font-weight: normal;
   font-style: italic;
 }
@@ -20,8 +20,8 @@
 @font-face {
   font-family: 'Charis SIL';
   src: local('Charis SIL Bold'), 
-       url('/fonts/CharisSIL/CharisSIL-Bold.woff2') format('woff2'), 
-       url('/fonts/CharisSIL/CharisSIL-Bold.ttf') format('truetype');
+       url('/yindian/fonts/CharisSIL/CharisSIL-Bold.woff2') format('woff2'), 
+       url('/yindian/fonts/CharisSIL/CharisSIL-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
@@ -29,8 +29,8 @@
 @font-face {
   font-family: 'Charis SIL';
   src: local('Charis SIL Bold Italic'), 
-       url('/fonts/CharisSIL/CharisSIL-BoldItalic.woff2') format('woff2'), 
-       url('/fonts/CharisSIL/CharisSIL-BoldItalic.ttf') format('truetype');
+       url('/yindian/fonts/CharisSIL/CharisSIL-BoldItalic.woff2') format('woff2'), 
+       url('/yindian/fonts/CharisSIL/CharisSIL-BoldItalic.ttf') format('truetype');
   font-weight: bold;
   font-style: italic;
 }
@@ -38,28 +38,28 @@
 /* SBB Web Font Faces */
 @font-face {
   font-family: 'SBB';
-  src: url('/fonts/SBBWeb_v1_9/SBBWeb-Thin.woff2') format('woff2');
+  src: url('/yindian/fonts/SBBWeb_v1_9/SBBWeb-Thin.woff2') format('woff2');
   font-weight: 100;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'SBB';
-  src: url('/fonts/SBBWeb_v1_9/SBBWeb-Light.woff2') format('woff2');
+  src: url('/yindian/fonts/SBBWeb_v1_9/SBBWeb-Light.woff2') format('woff2');
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'SBB';
-  src: url('/fonts/SBBWeb_v1_9/SBBWeb-Roman.woff2') format('woff2');
+  src: url('/yindian/fonts/SBBWeb_v1_9/SBBWeb-Roman.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'SBB';
-  src: url('/fonts/SBBWeb_v1_9/SBBWeb-Bold.woff2') format('woff2');
+  src: url('/yindian/fonts/SBBWeb_v1_9/SBBWeb-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
 }

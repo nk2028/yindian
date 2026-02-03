@@ -1,4 +1,3 @@
-
 import type {
   CharacterResult,
   DisplayMode,

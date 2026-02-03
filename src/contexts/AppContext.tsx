@@ -1,3 +1,5 @@
+'use client';
+
 import { processLanguages } from "@/lib/dataProcessor";
 import type {
   DisplayMode,
@@ -32,6 +34,10 @@ interface AppContextValue {
   deselectAllLanguages: () => void;
   toggle廣韻字段: (field: 廣韻字段) => void;
   updateTheme: (theme: Theme) => void;
+
+  // Current page
+  page: string;
+  setPage: (page: string) => void;
   
   // UI language
   language: Language;
@@ -63,6 +69,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [languagesError, setLanguagesError] = useState<Error | null>(null);
   const [queryInput, setQueryInput] = useState<string>("");
   const [queryResults, setQueryResults] = useState<any | null>(null);
+  const [page, setPage] = useState<string>("query");
   const [language, setLanguageState] = useState<Language>(() => {
     // Try to load language from localStorage
     try {
@@ -198,6 +205,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     languagesError,
     settings,
     updateDisplayMode,
+    page,
+    setPage,
     toggleLanguage,
     selectAllLanguages,
     deselectAllLanguages,

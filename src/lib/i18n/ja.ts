@@ -6,7 +6,7 @@ export const ja: Translations = {
     title: '音典',
     query: '検索',
     settings: '設定',
-    about: 'について',
+    about: 'About',
   },
   query: {
     title: '音典ウェブ版',
@@ -39,9 +39,9 @@ export const ja: Translations = {
     clearCacheConfirm: 'すべてのキャッシュをクリアしますか？ページがリロードされます。',
   },
   languageDetail: {
-    region: '分区',
-    location: '地点',
-    coordinates: '座標',
+    region: '分区：',
+    location: '場所：',
+    coordinates: '経緯度：',
     noMapData: '地図データなし',
   },
   about: {

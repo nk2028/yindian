@@ -38,9 +38,9 @@ export const zh_HK: Translations = {
     clearCacheButton: '清除緩存',    clearCacheConfirm: '確定要清除所有緩存嗎？此操作將重置所有設置。',
   },
   languageDetail: {
-    region: '分區',
-    location: '地點',
-    coordinates: '經緯度',
+    region: '分區：',
+    location: '地點：',
+    coordinates: '經緯度：',
     noMapData: '無地圖數據',
   },
   about: {  title: '關於音典網頁版',

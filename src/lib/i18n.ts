@@ -1,6 +1,3 @@
-// i18n.ts
-// 多语言翻译配置
-
 import { zh_HK } from './i18n/zh_HK';
 import { zh_CN } from './i18n/zh_CN';
 import { en_GB } from './i18n/en_GB';

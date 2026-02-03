@@ -39,9 +39,9 @@ export const zh_CN: Translations = {
     clearCacheConfirm: '确定要清除所有缓存吗？页面将会刷新。',
   },
   languageDetail: {
-    region: '分区',
-    location: '地点',
-    coordinates: '经纬度',
+    region: '分区：',
+    location: '地点：',
+    coordinates: '经纬度：',
     noMapData: '无地图数据',
   },
   about: {

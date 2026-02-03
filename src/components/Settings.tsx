@@ -1,3 +1,5 @@
+'use client';
+
 import { useApp } from "@/contexts/AppContext";
 import { getDisplayModeLabel } from "@/lib/dataProcessor";
 import type { DisplayMode } from "@/types";
