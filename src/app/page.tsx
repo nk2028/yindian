@@ -61,7 +61,6 @@ function PageSelector() {
       zh_CN: "zh-CN",
       ja: "ja",
       en_GB: "en-GB",
-      da: "da",
     };
 
     document.documentElement.lang = langMap[language];

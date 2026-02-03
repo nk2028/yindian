@@ -115,13 +115,6 @@ export default function Settings() {
               }`}>
               English
             </button>
-            <button
-              onClick={() => updateLanguage("da")}
-              className={`px-6 py-1.5 text-sm font-medium transition-colors rounded-full ${
-                language === "da" ? "bg-[#EB0000] text-white" : "bg-card text-card-foreground hover:bg-secondary"
-              }`}>
-              Dansk
-            </button>
           </div>
         </section>
 

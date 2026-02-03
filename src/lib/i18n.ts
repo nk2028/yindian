@@ -2,16 +2,14 @@ import zh_HK from "./i18n/zh_HK";
 import zh_CN from "./i18n/zh_CN";
 import ja from "./i18n/ja";
 import en_GB from "./i18n/en_GB";
-import da from "./i18n/da";
 
-export type Language = "zh_HK" | "zh_CN" | "ja" | "en_GB" | "da";
+export type Language = "zh_HK" | "zh_CN" | "ja" | "en_GB";
 
 export const LANGUAGE_DISPLAY_NAMES: Record<Language, string> = {
   zh_HK: "中文（繁體）",
   zh_CN: "中文（简体）",
   ja: "日本語",
   en_GB: "English",
-  da: "Dansk",
 };
 
 export interface Translations {
@@ -100,7 +98,6 @@ const translations: Record<Language, Translations> = {
   zh_CN,
   ja,
   en_GB,
-  da,
 };
 
 export function getTranslation(language: Language): Translations {
