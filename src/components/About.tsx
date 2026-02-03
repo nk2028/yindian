@@ -32,7 +32,7 @@ export default function About() {
               <h3 className="font-bold text-lg mb-2 text-foreground">{t.about.github}</h3>
               <ul className="list-disc list-inside space-y-1.5 ml-4">
                 <li>
-                  {t.about.githubFrontend}:{" "}
+                  {t.about.githubFrontend}
                   <a
                     href="https://github.com/nk2028/yindian"
                     target="_blank"
@@ -42,7 +42,7 @@ export default function About() {
                   </a>
                 </li>
                 <li>
-                  {t.about.githubBackend}:{" "}
+                  {t.about.githubBackend}
                   <a
                     href="https://github.com/nk2028/yindian-server"
                     target="_blank"
@@ -74,23 +74,29 @@ export default function About() {
                     className="text-[#EB0000] hover:underline">
                     {t.about.relatedWeiEr}
                   </a>
-                  : {t.about.relatedWeiErDesc} (
-                  <a
-                    href="https://github.com/vearvip/mcpdict-frontend"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#EB0000] hover:underline">
-                    {t.about.githubFrontend}
-                  </a>
-                  、
-                  <a
-                    href="https://github.com/vearvip/mcpdict-backend"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#EB0000] hover:underline">
-                    {t.about.githubBackend}
-                  </a>
-                  )
+                  : {t.about.relatedWeiErDesc}
+                  <ul className="list-[circle] list-inside ml-6">
+                    <li className="my-1.5">
+                      {t.about.githubFrontend}
+                      <a
+                        href="https://github.com/vearvip/mcpdict-frontend"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#EB0000] hover:underline">
+                        https://github.com/vearvip/mcpdict-frontend
+                      </a>
+                    </li>
+                    <li className="my-1.5">
+                      {t.about.githubBackend}
+                      <a
+                        href="https://github.com/vearvip/mcpdict-backend"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#EB0000] hover:underline">
+                        https://github.com/vearvip/mcpdict-backend
+                      </a>
+                    </li>
+                  </ul>
                 </li>
                 <li>
                   <a
@@ -100,23 +106,29 @@ export default function About() {
                     className="text-[#EB0000] hover:underline">
                     {t.about.relatedBuJi}
                   </a>
-                  : {t.about.relatedBuJiDesc} (
-                  <a
-                    href="https://github.com/jengzang/dialects-js-frontend"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#EB0000] hover:underline">
-                    {t.about.githubFrontend}
-                  </a>
-                  、
-                  <a
-                    href="https://github.com/jengzang/dialects-backend"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#EB0000] hover:underline">
-                    {t.about.githubBackend}
-                  </a>
-                  )
+                  : {t.about.relatedBuJiDesc}
+                  <ul className="list-[circle] list-inside ml-6">
+                    <li className="my-1.5">
+                      {t.about.githubFrontend}
+                      <a
+                        href="https://github.com/jengzang/dialects-js-frontend"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#EB0000] hover:underline">
+                        https://github.com/jengzang/dialects-js-frontend
+                      </a>
+                    </li>
+                    <li className="my-1.5">
+                      {t.about.githubBackend}
+                      <a
+                        href="https://github.com/jengzang/dialects-backend"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#EB0000] hover:underline">
+                        https://github.com/jengzang/dialects-backend
+                      </a>
+                    </li>
+                  </ul>
                 </li>
               </ul>
             </div>
@@ -157,7 +169,7 @@ export default function About() {
                   </a>
                 </li>
                 <li>
-                  {t.about.feedbackTelegram}:{" "}
+                  {t.about.feedbackTelegram}
                   <a
                     href="https://t.me/nk2028"
                     target="_blank"
@@ -167,7 +179,7 @@ export default function About() {
                   </a>
                 </li>
                 <li>
-                  {t.about.feedbackEmail}:{" "}
+                  {t.about.feedbackEmail}
                   <a href="mailto:support@nk2028.shn.hk" className="text-[#EB0000] hover:underline">
                     support@nk2028.shn.hk
                   </a>

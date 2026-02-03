@@ -59,8 +59,9 @@ function PageSelector() {
     const langMap: Record<Language, string> = {
       zh_HK: "zh-HK",
       zh_CN: "zh-CN",
-      en_GB: "en-GB",
       ja: "ja",
+      en_GB: "en-GB",
+      da: "da",
     };
 
     document.documentElement.lang = langMap[language];

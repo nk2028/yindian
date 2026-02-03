@@ -4,18 +4,18 @@
 
 ## 功能特點
 
-- **千餘種語言變體**: 收錄超過 2400 種語言變體，涵蓋上古音、中古音、近代音及現代方言
-- **多音字支持**: 完整顯示漢字的所有讀音，包括注釋說明，幫助區分不同用法
-- **廣韻字段定制**: 支持自定義廣韻數據顯示字段，包括切韻拼音、各家擬音、音系描述、反切等 24 個字段
-- **多語言界面**: 支持繁體中文、簡體中文、英文、日文四種界面語言
-- **主題切換**: 支持淺色/深色主題切換
-- **三種顯示模式**: 地圖集二、音典、陳邡三種語言排序和分區方式
+- **千餘種語言變體**：收錄超過 2400 種語言變體，涵蓋上古音、中古音、近代音及現代方言
+- **多音字支持**：完整顯示漢字的所有讀音，包括注釋說明，幫助區分不同用法
+- **廣韻顯示方式定制**：支持自定義廣韻數據顯示顯示方式，包括切韻拼音、各家擬音、音系描述、反切等 24 個顯示方式
+- **多語言界面**：支持繁體中文、簡體中文、英文、日文四種界面語言
+- **主題切換**：支持淺色/深色主題切換
+- **三種顯示模式**：地圖集二、音典、陳邡三種語言排序和分區方式
 
 ## 技術棧
 
-- **前端框架**: React 19 + TypeScript
-- **樣式**: Tailwind CSS
-- **構建工具**: Next.js
+- **前端框架**：React 19 + TypeScript
+- **樣式**：Tailwind CSS
+- **構建工具**：Next.js
 
 ## 開發
 
@@ -35,14 +35,14 @@ pnpm next start
 
 ## GitHub 仓庫
 
-- **前端**: https://github.com/nk2028/yindian
-- **后端**: https://github.com/nk2028/yindian-server
+- **前端**：https://github.com/nk2028/yindian
+- **后端**：https://github.com/nk2028/yindian-server
 
 ## 相關項目
 
 - [漢字音典 APP 版](https://github.com/osfans/MCPDict) - 原版
-- [唯二開發的網頁版](https://mcpdict.vear.vip/)([前端](https://github.com/vearvip/mcpdict-frontend)、[后端](https://github.com/vearvip/mcpdict-backend)): 提供了字音查詢、長文註音、語言地圖、設置等功能
-- [不羁開發的方音圖鑑](https://dialects.yzup.top)([前端](https://github.com/jengzang/dialects-js-frontend)、[后端](https://github.com/jengzang/dialects-backend)): 提供了查中古、查音位、查調、查字、分區繪圖、自定義繪圖等功能
+- [唯二開發的網頁版](https://mcpdict.vear.vip/)([前端](https://github.com/vearvip/mcpdict-frontend)、[后端](https://github.com/vearvip/mcpdict-backend))：提供了字音查詢、長文註音、語言地圖、設置等功能
+- [不羁開發的方音圖鑑](https://dialects.yzup.top)([前端](https://github.com/jengzang/dialects-js-frontend)、[后端](https://github.com/jengzang/dialects-backend))：提供了查中古、查音位、查調、查字、分區繪圖、自定義繪圖等功能
 
 ## 圖標製作
 
@@ -55,6 +55,6 @@ pnpm next start
 ## 反饋問題
 
 - 在 https://github.com/nk2028/yindian/issues 開 issue
-- Telegram 群組: https://t.me/nk2028
-- 發送電郵至: support@nk2028.shn.hk
+- Telegram 群組：https://t.me/nk2028
+- 發送電郵至：support@nk2028.shn.hk
 - QQ 找綾香

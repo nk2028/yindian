@@ -59,7 +59,7 @@ export interface DisplayModeConfig {
 /**
  * Language code for UI
  */
-export type Language = "zh_HK" | "zh_CN" | "en_GB" | "ja";
+export type Language = "zh_HK" | "zh_CN" | "ja" | "en_GB" | "da";
 
 /**
  * Theme mode

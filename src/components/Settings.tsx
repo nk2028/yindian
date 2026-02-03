@@ -5,7 +5,7 @@ import { getDisplayModeLabel } from "@/lib/dataProcessor";
 import type { DisplayMode } from "@/types";
 import { 廣韻字段列表 } from "@/types";
 import { useState, useMemo } from "react";
-import { getTranslation, formatString } from "@/lib/i18n";
+import { getTranslation } from "@/lib/i18n";
 
 // Calculate text color (black or white) based on background color brightness
 function getTextColor(bgColor: string | null | undefined): string {
@@ -102,6 +102,13 @@ export default function Settings() {
               中文(简体)
             </button>
             <button
+              onClick={() => updateLanguage("ja")}
+              className={`px-6 py-1.5 text-sm font-medium transition-colors rounded-full ${
+                language === "ja" ? "bg-[#EB0000] text-white" : "bg-card text-card-foreground hover:bg-secondary"
+              }`}>
+              日本語
+            </button>
+            <button
               onClick={() => updateLanguage("en_GB")}
               className={`px-6 py-1.5 text-sm font-medium transition-colors rounded-full ${
                 language === "en_GB" ? "bg-[#EB0000] text-white" : "bg-card text-card-foreground hover:bg-secondary"
@@ -109,11 +116,11 @@ export default function Settings() {
               English
             </button>
             <button
-              onClick={() => updateLanguage("ja")}
+              onClick={() => updateLanguage("da")}
               className={`px-6 py-1.5 text-sm font-medium transition-colors rounded-full ${
-                language === "ja" ? "bg-[#EB0000] text-white" : "bg-card text-card-foreground hover:bg-secondary"
+                language === "da" ? "bg-[#EB0000] text-white" : "bg-card text-card-foreground hover:bg-secondary"
               }`}>
-              日本語
+              Dansk
             </button>
           </div>
         </section>
@@ -156,7 +163,7 @@ export default function Settings() {
                     ? "bg-[#EB0000] text-white"
                     : "bg-card text-card-foreground hover:bg-secondary"
                 }`}>
-                {getDisplayModeLabel(mode)}
+                {getDisplayModeLabel(mode, t)}
               </button>
             ))}
           </div>

@@ -8,6 +8,7 @@ import type {
   TableRow,
 } from "@/types";
 import { 廣韻字段列表 } from "@/types";
+import { Translations } from "./i18n";
 
 /**
  * Display mode configurations
@@ -113,8 +114,17 @@ export function buildTableRows(
 /**
  * Get display mode label in Chinese
  */
-export function getDisplayModeLabel(mode: DisplayMode): string {
-  return mode;
+export function getDisplayModeLabel(mode: DisplayMode, t: Translations): string {
+  switch (mode) {
+    case "地圖集二":
+      return t.settings.displayModeAtlas2;
+    case "音典":
+      return t.settings.displayModeYindian;
+    case "陳邡":
+      return t.settings.displayModeChenfang;
+    default:
+      return mode;
+  }
 }
 
 /**

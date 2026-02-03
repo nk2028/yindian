@@ -1,7 +1,7 @@
 import type { Translations } from "../i18n";
 
-export const zh_HK: Translations = {
-  pageTitle: "音典網頁版 - 漢字語音查詢工具",
+const zh_HK: Translations = {
+  pageTitle: "音典網頁版 - 漢字讀音查詢工具",
   nav: {
     title: "音典",
     query: "查字",
@@ -28,15 +28,13 @@ export const zh_HK: Translations = {
     displayModeYindian: "音典",
     displayModeChenfang: "陳邡",
     guangyunDisplay: "廣韻顯示方式",
-    guangyunDisplayDesc: "選擇廣韻數據要顯示的字段（可多選）",
     languageSelection: "語言選擇",
     selectAll: "全選",
     deselectAll: "全不選",
-    selectedCount: "已選擇 {count} 種語言",
     clearCache: "清除緩存",
     clearCacheDesc: "清除所有本地存儲的設定和緩存數據",
     clearCacheButton: "清除緩存",
-    clearCacheConfirm: "確定要清除所有緩存嗎？此操作將重置所有設置。",
+    clearCacheConfirm: "確定要清除所有緩存嗎？此操作將重置所有設定。",
   },
   languageDetail: {
     region: "分區：",
@@ -46,18 +44,18 @@ export const zh_HK: Translations = {
   },
   about: {
     title: "關於音典網頁版",
-    intro: "漢字音典（Yindian）是全面收集漢字讀音的資料庫。它源自 Maigo 製作的 MCPDict，是最早的漢字讀音查詢工具之一。",
+    intro: "漢字音典是全面收集漢字讀音的資料庫。它源自 Maigo 製作的 MCPDict，是最早的漢字讀音查詢工具之一。",
     history:
-      "此後，由眾多專家聯手，不斷收集整理大量漢字讀音資料，製作了漢字音典 APP。nk2028 基於漢字音典 APP 發佈了音典網頁版，讓更多使用者能夠方便地查詢漢字在不同時代、不同地區的讀音。目前音典網頁版收錄了千餘種語言變體，涵蓋上古音、中古音、近代音及現代各地方言。",
+      "此後，由眾多專家聯手，不斷收集整理大量漢字讀音資料，製作了漢字音典 APP。nk2028 基於漢字音典 APP 發佈了音典網頁版，讓更多使用者能夠方便地查詢漢字在不同時代、不同地區的讀音。目前音典網頁版收錄了千餘種語言變體，涵蓋上古音、中古音、近代音及現代方言。",
     features: "主要功能",
     feature1: "支援多字同時查詢，以表格形式橫向對比不同語言變體的讀音",
-    feature2: "提供三種顯示模式（地圖集二/音典/陳邡），滿足不同用戶的查詢習慣",
-    feature3: "靈活的語言篩選系統，配合顏色標籤和分類結構，方便快速定位所需語言",
-    feature4: "對廣韻等歷史音韻資料提供詳細的字段選擇，支援多種擬音系統對比",
-    github: "GitHub 地址",
-    githubFrontend: "前端",
-    githubBackend: "後端",
-    relatedProjects: "相關項目",
+    feature2: "提供三種顯示模式（地圖集二/音典/陳邡），滿足不同用户的查詢習慣",
+    feature3: "靈活的語言篩選系統，配合顏色標籤和分類結構，便於快速定位所需語言",
+    feature4: "對廣韻等歷史音韻資料提供詳細的顯示方式選擇，支援多種擬音系統對比",
+    github: "GitHub 位址",
+    githubFrontend: "前端：",
+    githubBackend: "後端：",
+    relatedProjects: "關聯專案",
     relatedApp: "漢字音典 APP 版（原版）",
     relatedWeiEr: "唯二開發的網頁版",
     relatedWeiErDesc: "提供了字音查詢、長文注音、語言地圖、設置等功能",
@@ -67,8 +65,10 @@ export const zh_HK: Translations = {
     manusCredit: "使用 Manus AI 製作",
     feedback: "反饋問題",
     feedbackGithub: "GitHub Issues",
-    feedbackTelegram: "Telegram 羣組",
-    feedbackEmail: "電郵",
+    feedbackTelegram: "Telegram 羣組：",
+    feedbackEmail: "電郵：",
     feedbackQQ: "QQ 找綾香",
   },
 };
+
+export default zh_HK;

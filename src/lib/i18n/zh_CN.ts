@@ -1,11 +1,11 @@
 import type { Translations } from "../i18n";
 
-export const zh_CN: Translations = {
-  pageTitle: "音典网页版 - 汉字语音查询工具",
+const zh_CN: Translations = {
+  pageTitle: "音典网页版 - 汉字读音查询工具",
   nav: {
     title: "音典",
     query: "查字",
-    settings: "设定",
+    settings: "设置",
     about: "关于",
   },
   query: {
@@ -28,15 +28,13 @@ export const zh_CN: Translations = {
     displayModeYindian: "音典",
     displayModeChenfang: "陈邡",
     guangyunDisplay: "广韵显示方式",
-    guangyunDisplayDesc: "选择广韵数据要显示的字段（可多选）",
     languageSelection: "语言选择",
     selectAll: "全选",
     deselectAll: "全不选",
-    selectedCount: "已选择 {count} 种语言",
     clearCache: "清除缓存",
-    clearCacheDesc: "清除所有本地存储的设定和缓存数据",
+    clearCacheDesc: "清除所有本地存储的设置和缓存数据",
     clearCacheButton: "清除缓存",
-    clearCacheConfirm: "确定要清除所有缓存吗？页面将会刷新。",
+    clearCacheConfirm: "确定要清除所有缓存吗？此操作将重置所有设置。",
   },
   languageDetail: {
     region: "分区：",
@@ -46,17 +44,17 @@ export const zh_CN: Translations = {
   },
   about: {
     title: "关于音典网页版",
-    intro: "汉字音典（Yindian）是全面收集汉字读音的资料库。它源自 Maigo 制作的 MCPDict，是最早的汉字读音查询工具之一。",
+    intro: "汉字音典是全面收集汉字读音的数据库。它源自 Maigo 制作的 MCPDict，是最早的汉字读音查询工具之一。",
     history:
-      "此后，由众多专家联手，不断收集整理大量汉字读音资料，制作了汉字音典 APP。nk2028 基于汉字音典 APP 发布了音典网页版，让更多使用者能够方便地查询汉字在不同时代、不同地区的读音。目前音典网页版收录了千余种语言变体，涵盖上古音、中古音、近代音及现代各地方言。",
+      "此后，由众多专家联手，不断收集整理大量汉字读音资料，制作了汉字音典 APP。nk2028 基于汉字音典 APP 发布了音典网页版，让更多使用者能够方便地查询汉字在不同时代、不同地区的读音。目前音典网页版收录了千余种语言变体，涵盖上古音、中古音、近代音及现代方言。",
     features: "主要功能",
     feature1: "支持多字同时查询，以表格形式横向对比不同语言变体的读音",
     feature2: "提供三种显示模式（地图集二/音典/陈邡），满足不同用户的查询习惯",
-    feature3: "灵活的语言筛选系统，配合颜色标签和分类结构，方便快速定位所需语言",
-    feature4: "对广韵等历史音韵资料提供详细的字段选择，支持多种拟音系统对比",
+    feature3: "灵活的语言筛选系统，配合颜色标签和分类结构，便于快速定位所需语言",
+    feature4: "对广韵等历史音韵资料提供详细的显示方式选择，支持多种拟音系统对比",
     github: "GitHub 地址",
-    githubFrontend: "前端",
-    githubBackend: "后端",
+    githubFrontend: "前端：",
+    githubBackend: "后端：",
     relatedProjects: "相关项目",
     relatedApp: "汉字音典 APP 版（原版）",
     relatedWeiEr: "唯二开发的网页版",
@@ -67,8 +65,10 @@ export const zh_CN: Translations = {
     manusCredit: "使用 Manus AI 制作",
     feedback: "反馈问题",
     feedbackGithub: "GitHub Issues",
-    feedbackTelegram: "Telegram 群组",
-    feedbackEmail: "电邮",
+    feedbackTelegram: "Telegram 群组：",
+    feedbackEmail: "邮箱：",
     feedbackQQ: "QQ 找绫香",
   },
 };
+
+export default zh_CN;

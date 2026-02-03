@@ -1,15 +1,17 @@
-import { zh_HK } from "./i18n/zh_HK";
-import { zh_CN } from "./i18n/zh_CN";
-import { en_GB } from "./i18n/en_GB";
-import { ja } from "./i18n/ja";
+import zh_HK from "./i18n/zh_HK";
+import zh_CN from "./i18n/zh_CN";
+import ja from "./i18n/ja";
+import en_GB from "./i18n/en_GB";
+import da from "./i18n/da";
 
-export type Language = "zh_HK" | "zh_CN" | "en_GB" | "ja";
+export type Language = "zh_HK" | "zh_CN" | "ja" | "en_GB" | "da";
 
 export const LANGUAGE_DISPLAY_NAMES: Record<Language, string> = {
   zh_HK: "中文（繁體）",
   zh_CN: "中文（简体）",
-  en_GB: "English",
   ja: "日本語",
+  en_GB: "English",
+  da: "Dansk",
 };
 
 export interface Translations {
@@ -47,11 +49,9 @@ export interface Translations {
     displayModeYindian: string;
     displayModeChenfang: string;
     guangyunDisplay: string;
-    guangyunDisplayDesc: string;
     languageSelection: string;
     selectAll: string;
     deselectAll: string;
-    selectedCount: string;
     clearCache: string;
     clearCacheDesc: string;
     clearCacheButton: string;
@@ -98,8 +98,9 @@ export interface Translations {
 const translations: Record<Language, Translations> = {
   zh_HK,
   zh_CN,
-  en_GB,
   ja,
+  en_GB,
+  da,
 };
 
 export function getTranslation(language: Language): Translations {
