@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./index.css";
 
 export const metadata: Metadata = {
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
     "Guangyun",
   ],
   icons: {
-    icon: "/icon.svg",
+    icon: "/yindian/icon.svg",
   },
 };
 
@@ -31,7 +32,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-HK">
-      <body className="antialiased">{children}</body>
+      <head>
+        <Script
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          strategy="afterInteractive"
+          data-cf-beacon='{"token":"16ad6c356b37426cb31816318ed5a42d"}'
+        />
+      </head>
+      <body>{children}</body>
     </html>
   );
 }
