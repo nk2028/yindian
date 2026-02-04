@@ -2,32 +2,10 @@
 
 import { useApp } from "@/contexts/AppContext";
 import { getDisplayModeLabel } from "@/lib/dataProcessor";
-import type { DisplayMode } from "@/types";
-import { 廣韻字段列表 } from "@/types";
+import { displayModes, 廣韻字段列表 } from "@/types";
 import { useState, useMemo } from "react";
 import { getTranslation } from "@/lib/i18n";
-
-// Calculate text color (black or white) based on background color brightness
-function getTextColor(bgColor: string | null | undefined): string {
-  if (!bgColor) return "#000000"; // Default to black if no color
-
-  // Remove # if present
-  const hex = bgColor.replace("#", "");
-
-  // Handle invalid hex colors
-  if (hex.length !== 6) return "#000000";
-
-  // Convert to RGB
-  const r = parseInt(hex.substr(0, 2), 16);
-  const g = parseInt(hex.substr(2, 2), 16);
-  const b = parseInt(hex.substr(4, 2), 16);
-
-  // Calculate relative luminance (perceived brightness)
-  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-
-  // Return black for light backgrounds, white for dark backgrounds
-  return luminance > 0.5 ? "#000000" : "#FFFFFF";
-}
+import { getTextColor } from "@/lib/utils";
 
 export default function Settings() {
   const {
@@ -72,8 +50,6 @@ export default function Settings() {
       return minSortOrderA - minSortOrderB;
     });
   }, [filteredLanguages]);
-
-  const displayModes: DisplayMode[] = ["地圖集二", "音典", "陳邡"];
 
   const selectedCount = settings.selectedLanguages.size;
   const totalCount = processedLanguages.length;

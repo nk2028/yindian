@@ -1,7 +1,17 @@
 "use client";
 
 import { processLanguages } from "@/lib/dataProcessor";
-import type { DisplayMode, 廣韻字段, Language, LanguageInfo, ProcessedLanguage, Theme, UserSettings } from "@/types";
+import type {
+  DisplayMode,
+  廣韻字段,
+  Language,
+  LanguageInfo,
+  ProcessedLanguage,
+  Theme,
+  UserSettings,
+  Pages,
+  CharacterResult,
+} from "@/types";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { fetchLanguages } from "@/lib/api";
 
@@ -22,8 +32,8 @@ interface AppContextValue {
   updateTheme: (theme: Theme) => void;
 
   // Current page
-  page: string;
-  setPage: (page: string) => void;
+  page: Pages;
+  setPage: (page: Pages) => void;
 
   // UI language
   language: Language;
@@ -32,8 +42,8 @@ interface AppContextValue {
   // Query state
   queryInput: string;
   setQueryInput: (input: string) => void;
-  queryResults: any | null;
-  setQueryResults: (results: any | null) => void;
+  queryResults: CharacterResult[] | null;
+  setQueryResults: (results: CharacterResult[] | null) => void;
 }
 
 const AppContext = createContext<AppContextValue | undefined>(undefined);
@@ -52,8 +62,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [isLoadingLanguages, setIsLoadingLanguages] = useState(true);
   const [languagesError, setLanguagesError] = useState<Error | null>(null);
   const [queryInput, setQueryInput] = useState<string>("");
-  const [queryResults, setQueryResults] = useState<any | null>(null);
-  const [page, setPage] = useState<string>("query");
+  const [queryResults, setQueryResults] = useState<CharacterResult[] | null>(null);
+  const [page, setPage] = useState<Pages>("query");
   const [language, setLanguageState] = useState<Language>(() => {
     // Try to load language from localStorage
     try {

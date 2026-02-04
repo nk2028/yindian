@@ -7,30 +7,31 @@ import { useState, useEffect } from "react";
 import { useApp } from "@/contexts/AppContext";
 import { getTranslation } from "@/lib/i18n";
 import LanguageDetailModal from "@/components/LanguageDetailModal";
+import { getTextColor } from "@/lib/utils";
 
-// Calculate text color (black or white) based on background color brightness
-function getTextColor(bgColor: string | null | undefined): string {
-  if (!bgColor) return "#000000"; // Default to black if no color
+const LoadingSpinnerIcon = () => (
+  <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+    <path
+      className="opacity-75"
+      fill="currentColor"
+      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+    />
+  </svg>
+);
 
-  // Remove # if present
-  const hex = bgColor.replace("#", "");
+const MagnifyingGlassIcon = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+    />
+  </svg>
+);
 
-  // Handle invalid hex colors
-  if (hex.length !== 6) return "#000000";
-
-  // Convert to RGB
-  const r = parseInt(hex.substr(0, 2), 16);
-  const g = parseInt(hex.substr(2, 2), 16);
-  const b = parseInt(hex.substr(4, 2), 16);
-
-  // Calculate relative luminance (perceived brightness)
-  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-
-  // Return black for light backgrounds, white for dark backgrounds
-  return luminance > 0.5 ? "#000000" : "#FFFFFF";
-}
-
-export default function Query() {
+const Query = () => {
   const {
     processedLanguages,
     settings,
@@ -112,34 +113,7 @@ export default function Query() {
               disabled={!queryInput.trim() || isQuerying}
               className="w-10 h-10 flex items-center justify-center bg-[#EB0000] text-white font-bold hover:bg-[#C50000] disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors rounded-full flex-shrink-0"
               aria-label={t.query.button}>
-              {isQuerying ? (
-                <svg
-                  className="w-5 h-5 animate-spin"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-              )}
+              {isQuerying ? <LoadingSpinnerIcon /> : <MagnifyingGlassIcon />}
             </button>
           </div>
           {error && <div className="mt-2 text-[#EB0000] text-sm font-medium">{error}</div>}
@@ -244,3 +218,5 @@ export default function Query() {
     </div>
   );
 }
+
+export default Query;

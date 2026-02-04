@@ -44,8 +44,8 @@ export function processLanguages(languages: LanguageInfo[], displayMode: Display
     sortOrder: lang[config.sortIndex] as number,
     color: lang[config.colorIndex] as string,
     region: lang[config.regionIndex] as string,
-    location: String(lang[12] || ""),
-    coordinates: String(lang[13] || ""),
+    location: lang[12],
+    coordinates: lang[13] === null || lang[13].length === 0 ? null : lang[13],
   }));
 }
 
@@ -68,14 +68,13 @@ export function buildTableRows(
 
   // Collect all 字音
   queryResults.forEach(([char, 字音數據列表]) => {
-    字音數據列表.forEach(([langId, 字音, note]) => {
+    字音數據列表.forEach(([langId, 字音, 註釋]) => {
       if (!lang字音映射.has(langId)) {
         lang字音映射.set(langId, {});
       }
       const lang字音 = lang字音映射.get(langId)!;
 
-      // Format: 字音 (note) if note exists, otherwise just 字音
-      const displayText = note ? `${字音} (${note})` : 字音;
+      const displayText = 註釋 ? `${字音} (${註釋})` : 字音;
 
       // If this language already has a 字音 for this character, append with separator
       if (lang字音[char]) {
@@ -121,9 +120,7 @@ export function getDisplayModeLabel(mode: DisplayMode, t: Translations): string 
     case "音典":
       return t.settings.displayModeYindian;
     case "陳邡":
-      return t.settings.displayModeChenfang;
-    default:
-      return mode;
+      return t.settings.displayModeChenFang;
   }
 }
 
@@ -199,5 +196,5 @@ export function parse廣韻字音(字音: string, selectedFields: Set<廣韻字�
   });
 
   // Join with ' / ' for better readability
-  return selectedParts.length > 0 ? selectedParts.join(" / ") : 字音;
+  return selectedParts.length > 0 ? selectedParts.join("/") : 字音;
 }

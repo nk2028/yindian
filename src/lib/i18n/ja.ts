@@ -26,7 +26,7 @@ const ja: Translations = {
     displayMode: "表示モード",
     displayModeAtlas2: "地図集二",
     displayModeYindian: "音典",
-    displayModeChenfang: "陳邡",
+    displayModeChenFang: "陳邡",
     guangyunDisplay: "広韻の表示形式",
     languageSelection: "言語選択",
     selectAll: "全て選択",

@@ -1,20 +1,20 @@
 "use client";
 
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { useEffect } from "react";
 
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { AppProvider, useApp } from "@/contexts/AppContext";
 import Query from "@/components/Query";
 import Settings from "@/components/Settings";
 import About from "@/components/About";
 import { getTranslation, type Language } from "@/lib/i18n";
-import { useEffect } from "react";
+import { Pages } from "@/types";
 
 function Navigation() {
   const { page, setPage, language } = useApp();
   const t = getTranslation(language);
 
-  const navItems = [
+  const navItems: { key: Pages; label: string }[] = [
     { key: "query", label: t.nav.query },
     { key: "settings", label: t.nav.settings },
     { key: "about", label: t.nav.about },
@@ -87,7 +87,6 @@ function Home() {
   return (
     <AppProvider>
       <TooltipProvider>
-        <Toaster />
         <PageSelector />
       </TooltipProvider>
     </AppProvider>

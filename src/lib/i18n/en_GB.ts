@@ -26,7 +26,7 @@ const en_GB: Translations = {
     displayMode: "Display Mode",
     displayModeAtlas2: "Atlas II",
     displayModeYindian: "Yindian",
-    displayModeChenfang: "陳邡",
+    displayModeChenFang: "Chen Fang",
     guangyunDisplay: "Guangyun Display",
     languageSelection: "Language Selection",
     selectAll: "Select All",

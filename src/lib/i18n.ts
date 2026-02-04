@@ -45,7 +45,7 @@ export interface Translations {
     displayMode: string;
     displayModeAtlas2: string;
     displayModeYindian: string;
-    displayModeChenfang: string;
+    displayModeChenFang: string;
     guangyunDisplay: string;
     languageSelection: string;
     selectAll: string;

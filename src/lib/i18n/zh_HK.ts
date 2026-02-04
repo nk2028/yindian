@@ -26,7 +26,7 @@ const zh_HK: Translations = {
     displayMode: "顯示方式",
     displayModeAtlas2: "地圖集二",
     displayModeYindian: "音典",
-    displayModeChenfang: "陳邡",
+    displayModeChenFang: "陳邡",
     guangyunDisplay: "廣韻顯示方式",
     languageSelection: "語言選擇",
     selectAll: "全選",

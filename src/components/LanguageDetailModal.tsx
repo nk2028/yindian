@@ -16,16 +16,16 @@ export default function LanguageDetailModal({ language, onClose }: LanguageDetai
 
   if (!language) return null;
 
-  // Parse coordinates (format: "lng,lat" from API)
-  const coords = language.coordinates.split(",").map(c => c.trim());
-  const lng = coords[0] || ""; // First is longitude
-  const lat = coords[1] || ""; // Second is latitude
+  let mapUrl = ""; // Default to empty, when coordinates is null
+  if (language.coordinates !== null) {
+    // Parse coordinates (format: "lng,lat" from API)
+    const coords = language.coordinates.split(",").map(c => c.trim());
+    const lng = parseFloat(coords[0] || "");
+    const lat = parseFloat(coords[1] || "");
 
-  // Create OpenStreetMap embed URL
-  const mapUrl =
-    lat && lng
-      ? `https://www.openstreetmap.org/export/embed.html?bbox=${parseFloat(lng) - 0.1},${parseFloat(lat) - 0.1},${parseFloat(lng) + 0.1},${parseFloat(lat) + 0.1}&layer=mapnik&marker=${lat},${lng}`
-      : "";
+    // Create OpenStreetMap embed URL
+    mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.1},${lat - 0.1},${lng + 0.1},${lat + 0.1}&layer=mapnik&marker=${lat},${lng}`;
+  }
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={onClose}>
@@ -52,7 +52,7 @@ export default function LanguageDetailModal({ language, onClose }: LanguageDetai
               <span className="font-bold text-foreground min-w-[80px]">{t.languageDetail.location}</span>
               <span className="text-foreground">{language.location || "—"}</span>
             </div>
-            {language.coordinates && (
+            {language.coordinates !== null && (
               <div className="flex items-baseline gap-2">
                 <span className="font-bold text-foreground min-w-[80px]">{t.languageDetail.coordinates}</span>
                 <span className="text-foreground">{language.coordinates}</span>
