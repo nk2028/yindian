@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./scrollbar.css";
 @import "./CharisSIL.css";
 @import "./SBBWeb.css";
 

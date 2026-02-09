@@ -28,6 +28,8 @@ const zh_CN: Translations = {
     displayModeYindian: "音典",
     displayModeChenFang: "陈邡",
     guangyunDisplay: "广韵显示方式",
+    zhongyuanDisplay: "中原音韵显示方式",
+    dunganGansuDisplay: "东干甘肃话显示方式",
     languageSelection: "语言选择",
     selectAll: "全选",
     deselectAll: "全不选",

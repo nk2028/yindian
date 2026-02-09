@@ -13,7 +13,7 @@ const getCachedVersion = (): string | null => {
   } catch {
     return null;
   }
-}
+};
 
 /**
  * Format Unix timestamp to human-readable string based on language locale

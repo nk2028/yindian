@@ -28,6 +28,8 @@ const en_GB: Translations = {
     displayModeYindian: "Yindian",
     displayModeChenFang: "Chen Fang",
     guangyunDisplay: "Guangyun Display",
+    zhongyuanDisplay: "Zhongyuan Yinyun Display",
+    dunganGansuDisplay: "Dungan Gansu Dialect Display",
     languageSelection: "Language Selection",
     selectAll: "Select All",
     deselectAll: "Deselect All",

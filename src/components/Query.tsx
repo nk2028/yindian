@@ -1,7 +1,7 @@
 "use client";
 
 import { queryCharacters } from "@/lib/api";
-import { buildTableRows, parse廣韻字音 } from "@/lib/dataProcessor";
+import { buildTableRows, parse廣韻字音, parse中原音韻字音, parse東干甘肅話字音 } from "@/lib/dataProcessor";
 import type { CharacterResult, ProcessedLanguage, TableRow } from "@/types";
 import { useState, useEffect } from "react";
 import { useApp } from "@/contexts/AppContext";
@@ -172,6 +172,18 @@ const Query = () => {
                           isHTML = true; // Guangyun data contains HTML tags
                         }
 
+                        // Special handling for 中原音韻 data
+                        if (row.languageAbbr === "中原音韻" && 字音 !== "—") {
+                          字音 = parse中原音韻字音(字音, settings.中原音韻字段);
+                          isHTML = true; // 中原音韻 data contains HTML tags
+                        }
+
+                        // Special handling for 東干甘肅話 data
+                        if (row.languageAbbr === "東干甘肅話" && 字音 !== "—") {
+                          字音 = parse東干甘肅話字音(字音, settings.東干甘肅話字段);
+                          isHTML = true; // 東干甘肅話 data contains HTML tags
+                        }
+
                         // Render with HTML or plain text
                         if (isHTML) {
                           return (
@@ -217,6 +229,6 @@ const Query = () => {
       <LanguageDetailModal language={selectedLanguage} onClose={() => setSelectedLanguage(null)} />
     </div>
   );
-}
+};
 
 export default Query;

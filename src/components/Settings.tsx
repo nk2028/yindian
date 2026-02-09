@@ -2,7 +2,7 @@
 
 import { useApp } from "@/contexts/AppContext";
 import { getDisplayModeLabel } from "@/lib/dataProcessor";
-import { displayModes, 廣韻字段列表 } from "@/types";
+import { displayModes, 廣韻字段列表, 中原音韻字段列表, 東干甘肅話字段列表 } from "@/types";
 import { useState, useMemo } from "react";
 import { getTranslation } from "@/lib/i18n";
 import { getTextColor } from "@/lib/utils";
@@ -17,9 +17,11 @@ export default function Settings() {
     selectAllLanguages,
     deselectAllLanguages,
     toggle廣韻字段,
+    toggle中原音韻字段,
+    toggle東干甘肅話字段,
     updateTheme,
     language,
-    updateLanguage,
+    setDisplayLanguage,
   } = useApp();
   const t = getTranslation(language);
 
@@ -55,6 +57,13 @@ export default function Settings() {
   const selectedCount = settings.selectedLanguages.size;
   const totalCount = processedLanguages.length;
 
+  const displayLanguageList = [
+    { code: "zh_HK", label: "繁體中文" },
+    { code: "zh_CN", label: "简体中文" },
+    { code: "ja", label: "日本語" },
+    { code: "en_GB", label: "English" },
+  ] as const;
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto p-4">
@@ -84,34 +93,16 @@ export default function Settings() {
         <section className="mb-4 bg-card p-4 shadow-sm">
           <h2 className="text-lg font-bold mb-3 text-foreground">{t.settings.interfaceLanguage}</h2>
           <div className="flex gap-2 flex-wrap">
-            <button
-              onClick={() => updateLanguage("zh_HK")}
-              className={`px-6 py-1.5 text-sm font-medium transition-colors rounded-full ${
-                language === "zh_HK" ? "bg-[#EB0000] text-white" : "bg-card text-card-foreground hover:bg-secondary"
-              }`}>
-              中文(繁體)
-            </button>
-            <button
-              onClick={() => updateLanguage("zh_CN")}
-              className={`px-6 py-1.5 text-sm font-medium transition-colors rounded-full ${
-                language === "zh_CN" ? "bg-[#EB0000] text-white" : "bg-card text-card-foreground hover:bg-secondary"
-              }`}>
-              中文(简体)
-            </button>
-            <button
-              onClick={() => updateLanguage("ja")}
-              className={`px-6 py-1.5 text-sm font-medium transition-colors rounded-full ${
-                language === "ja" ? "bg-[#EB0000] text-white" : "bg-card text-card-foreground hover:bg-secondary"
-              }`}>
-              日本語
-            </button>
-            <button
-              onClick={() => updateLanguage("en_GB")}
-              className={`px-6 py-1.5 text-sm font-medium transition-colors rounded-full ${
-                language === "en_GB" ? "bg-[#EB0000] text-white" : "bg-card text-card-foreground hover:bg-secondary"
-              }`}>
-              English
-            </button>
+            {displayLanguageList.map(lang => (
+              <button
+                key={lang.code}
+                onClick={() => setDisplayLanguage(lang.code)}
+                className={`px-6 py-1.5 text-sm font-medium transition-colors rounded-full ${
+                  language === lang.code ? "bg-[#EB0000] text-white" : "bg-card text-card-foreground hover:bg-secondary"
+                }`}>
+                {lang.label}
+              </button>
+            ))}
           </div>
         </section>
 
@@ -209,8 +200,60 @@ export default function Settings() {
           </div>
         </section>
 
-        {/* Language Selection Section */}
+        {/* Zhongyuan Yinyun Display Section */}
         <section className="mb-4 bg-card p-4 shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <h2 className="text-lg font-bold text-foreground">{t.settings.zhongyuanDisplay}</h2>
+            </div>
+          </div>
+
+          {/* Zhongyuan Yinyun Fields Grid */}
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12">
+            {中原音韻字段列表.map(field => (
+              <label
+                key={field}
+                className="flex items-start gap-1 p-1 hover:bg-secondary cursor-pointer border-r border-b border text-xs leading-tight">
+                <input
+                  type="checkbox"
+                  checked={settings.中原音韻字段.has(field)}
+                  onChange={() => toggle中原音韻字段(field)}
+                  className="w-3 h-3 mt-0.5 flex-shrink-0 accent-primary"
+                />
+                <span className="min-w-0 break-words text-foreground">{field}</span>
+              </label>
+            ))}
+          </div>
+        </section>
+
+        {/* Donggan Gansu Dialect Display Section */}
+        <section className="mb-4 bg-card p-4 shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <h2 className="text-lg font-bold text-foreground">{t.settings.dunganGansuDisplay}</h2>
+            </div>
+          </div>
+
+          {/* Donggan Gansu Dialect Fields Grid */}
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12">
+            {東干甘肅話字段列表.map(field => (
+              <label
+                key={field}
+                className="flex items-start gap-1 p-1 hover:bg-secondary cursor-pointer border-r border-b border text-xs leading-tight">
+                <input
+                  type="checkbox"
+                  checked={settings.東干甘肅話字段.has(field)}
+                  onChange={() => toggle東干甘肅話字段(field)}
+                  className="w-3 h-3 mt-0.5 flex-shrink-0 accent-primary"
+                />
+                <span className="min-w-0 break-words text-foreground">{field}</span>
+              </label>
+            ))}
+          </div>
+        </section>
+
+        {/* Language Selection Section */}
+        <section className="mb-4 bg-card p-4 shadow-sm max-h-[600px] overflow-y-auto">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-lg font-bold text-foreground">
               {t.settings.languageSelection} ({selectedCount}/{totalCount})

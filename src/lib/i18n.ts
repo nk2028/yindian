@@ -47,6 +47,8 @@ export interface Translations {
     displayModeYindian: string;
     displayModeChenFang: string;
     guangyunDisplay: string;
+    zhongyuanDisplay: string;
+    dunganGansuDisplay: string;
     languageSelection: string;
     selectAll: string;
     deselectAll: string;

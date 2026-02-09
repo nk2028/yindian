@@ -58,7 +58,6 @@ export interface DisplayModeConfig {
   regionIndex: number; // Index in LanguageInfo array for region
 }
 
-// pages
 /**
  * Application pages
  */
@@ -112,12 +111,40 @@ export const 廣韻字段列表 = [
 export type 廣韻字段 = typeof 廣韻字段列表[number];
 
 /**
+ * 中原音韻字段列表
+ */
+export const 中原音韻字段列表 = [
+  "楊耐思",
+  "寧繼福",
+  "薛鳳生（音位形式）",
+  "unt（音位形式）",
+  "unt",
+] as const;
+
+export type 中原音韻字段 = typeof 中原音韻字段列表[number];
+
+/**
+ * 所有東干甘肅話字段（按順序）
+ */
+export const 東干甘肅話字段列表 = [
+  "音標",
+  "西里爾字母",
+] as const;
+
+/**
+ * 東干甘肅話字段名稱
+ */
+export type 東干甘肅話字段 = typeof 東干甘肅話字段列表[number];
+
+/**
  * User settings
  */
 export interface UserSettings {
   displayMode: DisplayMode;
   selectedLanguages: Set<number>; // Set of language IDs
   廣韻字段: Set<廣韻字段>; // 選中要顯示的廣韻字段
+  中原音韻字段: Set<中原音韻字段>; // 選中要顯示的中原音韻字段
+  東干甘肅話字段: Set<東干甘肅話字段>; // 選中要顯示的東干甘肅話字段
   theme: Theme; // UI theme (light/dark)
 }
 

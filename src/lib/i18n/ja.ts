@@ -28,6 +28,8 @@ const ja: Translations = {
     displayModeYindian: "音典",
     displayModeChenFang: "陳邡",
     guangyunDisplay: "広韻の表示形式",
+    zhongyuanDisplay: "中原音韻の表示形式",
+    dunganGansuDisplay: "東干甘肅話の表示形式",
     languageSelection: "言語選択",
     selectAll: "全て選択",
     deselectAll: "全て解除",

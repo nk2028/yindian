@@ -3,11 +3,13 @@ import type {
   DisplayMode,
   DisplayModeConfig,
   廣韻字段,
+  中原音韻字段,
+  東干甘肅話字段,
   LanguageInfo,
   ProcessedLanguage,
   TableRow,
 } from "@/types";
-import { 廣韻字段列表 } from "@/types";
+import { 廣韻字段列表, 中原音韻字段列表, 東干甘肅話字段列表 } from "@/types";
 import { Translations } from "./i18n";
 
 /**
@@ -135,6 +137,19 @@ export function getDisplayModeLabel(mode: DisplayMode, t: Translations): string 
 const 廣韻字段類型 = "lllliiiiiiiiiiiiiih#hhhh";
 
 /**
+ * 中原音韻字段類型標記（5個字段）
+ * i: IPA (國際音標)
+ */
+const 中原音韻字段類型 = "iiiii";
+
+/**
+ * 東干甘肅話字段類型標記（2個字段）
+ * c: Cyrillic Romanization (西里爾羅馬化)
+ * i: IPA (國際音標)
+ */
+const 東干甘肅話字段類型 = "ic";
+
+/**
  * 包裝 IPA 音標
  */
 function wrapIPA(字音: string): string {
@@ -189,6 +204,82 @@ export function parse廣韻字音(字音: string, selectedFields: Set<廣韻字�
           fieldValue = wrapRomanization(fieldValue, "Cyrl");
           break;
         // 'h' and '#' types don't need special wrapping
+      }
+
+      selectedParts.push(fieldValue);
+    }
+  });
+
+  // Join with ' / ' for better readability
+  return selectedParts.length > 0 ? selectedParts.join("/") : 字音;
+}
+
+export function parse中原音韻字音(字音: string, selectedFields: Set<中原音韻字段>): string {
+  // Handle multiple 字音 separated by '; '
+  if (字音.includes("; ")) {
+    const 字音列表 = 字音.split("; ");
+    return 字音列表.map(p => parse中原音韻字音(p, selectedFields)).join("; ");
+  }
+
+  // Split by '/' to get all fields
+  const parts = 字音.split("/");
+
+  // Handle short format (less than 5 fields) - just return as is
+  if (parts.length < 中原音韻字段列表.length) {
+    return 字音;
+  }
+
+  // Extract selected fields from full 5-field format with type wrapping
+  const selectedParts: string[] = [];
+  中原音韻字段列表.forEach((field, index) => {
+    if (selectedFields.has(field) && parts[index]) {
+      let fieldValue = parts[index];
+      const fieldType = 中原音韻字段類型[index];
+
+      // Apply formatting based on field type
+      if (fieldType === "i") {
+        fieldValue = wrapIPA(fieldValue);
+      }
+
+      selectedParts.push(fieldValue);
+    }
+  });
+
+  // Join with ' / ' for better readability
+  return selectedParts.length > 0 ? selectedParts.join("/") : 字音;
+}
+
+export function parse東干甘肅話字音(字音: string, selectedFields: Set<東干甘肅話字段>): string {
+  // Handle multiple 字音 separated by '; '
+  if (字音.includes("; ")) {
+    const 字音列表 = 字音.split("; ");
+    return 字音列表.map(p => parse東干甘肅話字音(p, selectedFields)).join("; ");
+  }
+
+  // Split by '/' to get all fields
+  const parts = 字音.split("/");
+
+  // Handle short format (less than 2 fields) - just return as is
+  if (parts.length < 東干甘肅話字段列表.length) {
+    return 字音;
+  }
+
+  // Extract selected fields from full 2-field format with type wrapping
+  const selectedParts: string[] = [];
+  東干甘肅話字段列表.forEach((field, index) => {
+    if (selectedFields.has(field) && parts[index]) {
+      let fieldValue = parts[index];
+      const fieldType = 東干甘肅話字段類型[index];
+
+      // Apply formatting based on field type
+      switch (fieldType) {
+        case "i":
+          fieldValue = wrapIPA(fieldValue);
+          break;
+        case "c":
+          fieldValue = wrapRomanization(fieldValue, "Cyrl");
+          break;
+        // 'h' type doesn't need special wrapping
       }
 
       selectedParts.push(fieldValue);
