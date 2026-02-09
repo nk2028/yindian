@@ -31,10 +31,9 @@ const zh_HK: Translations = {
     languageSelection: "語言選擇",
     selectAll: "全選",
     deselectAll: "全不選",
-    clearCache: "清除緩存",
-    clearCacheDesc: "清除所有本地存儲的設定和緩存數據",
-    clearCacheButton: "清除緩存",
-    clearCacheConfirm: "確定要清除所有緩存嗎？此操作將重置所有設定。",
+    dataVersion: "音典資料版本",
+    clearCacheButton: "清除快取",
+    clearCacheConfirm: "確定要清除所有快取嗎？此操作將重置所有設定。",
   },
   languageDetail: {
     region: "分區：",
@@ -44,9 +43,8 @@ const zh_HK: Translations = {
   },
   about: {
     title: "關於音典網頁版",
-    intro: "漢字音典是全面收集漢字讀音的資料庫。它源自 Maigo 製作的 MCPDict，是最早的漢字讀音查詢工具之一。",
-    history:
-      "此後，由眾多專家聯手，不斷收集整理大量漢字讀音資料，製作了漢字音典 APP。nk2028 基於漢字音典 APP 發佈了音典網頁版，讓更多使用者能夠方便地查詢漢字在不同時代、不同地區的讀音。目前音典網頁版收錄了千餘種語言變體，涵蓋上古音、中古音、近代音及現代方言。",
+    intro:
+      "漢字音典是全面收集漢字讀音的資料庫。它源自 Maigo 製作的 MCPDict，是最早的漢字讀音查詢工具之一。此後，由眾多專家聯手，不斷收集整理大量漢字讀音資料，製作了漢字音典 APP。nk2028 基於漢字音典 APP 發佈了音典網頁版，讓更多使用者能夠方便地查詢漢字在不同時代、不同地區的讀音。目前音典網頁版收錄了千餘種語言變體，涵蓋上古音、中古音、近代音及現代方言。",
     features: "主要功能",
     feature1: "支援多字同時查詢，以表格形式橫向對比不同語言變體的讀音",
     feature2: "提供三種顯示模式（地圖集二/音典/陳邡），滿足不同用户的查詢習慣",
@@ -62,7 +60,6 @@ const zh_HK: Translations = {
     relatedBuJi: "不羁開發的方音圖鑑",
     relatedBuJiDesc: "提供了查中古、查音位、查調、查字、分區繪圖、自定義繪圖等功能",
     iconCredit: "音典網頁版圖標由綾香製作",
-    manusCredit: "使用 Manus AI 製作",
     feedback: "反饋問題",
     feedbackGithub: "GitHub Issues",
     feedbackTelegram: "Telegram 羣組：",

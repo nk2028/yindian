@@ -6,6 +6,7 @@ import { displayModes, 廣韻字段列表 } from "@/types";
 import { useState, useMemo } from "react";
 import { getTranslation } from "@/lib/i18n";
 import { getTextColor } from "@/lib/utils";
+import { getCachedVersionString } from "@/lib/api";
 
 export default function Settings() {
   const {
@@ -58,6 +59,26 @@ export default function Settings() {
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto p-4">
         <h1 className="text-3xl font-bold mb-4 text-[#EB0000] pb-3 border-b-2 border-[#EB0000]">{t.settings.title}</h1>
+
+        {/* Show Version and Clear Cache Section */}
+        <section className="mb-4 bg-card p-4 shadow-sm">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-bold text-foreground">{t.settings.dataVersion}</h2>
+              <p className="text-sm text-muted-foreground mt-2">{getCachedVersionString(language) ?? "N/A"}</p>
+            </div>
+            <button
+              onClick={() => {
+                if (confirm(t.settings.clearCacheConfirm)) {
+                  localStorage.clear();
+                  window.location.reload();
+                }
+              }}
+              className="px-4 py-2 text-sm font-medium bg-[#EB0000] text-white hover:bg-[#C50000] transition-colors rounded-full">
+              {t.settings.clearCacheButton}
+            </button>
+          </div>
+        </section>
 
         {/* Interface Language Section */}
         <section className="mb-4 bg-card p-4 shadow-sm">
@@ -249,26 +270,6 @@ export default function Settings() {
                 </div>
               );
             })}
-          </div>
-        </section>
-
-        {/* Clear Cache Section */}
-        <section className="mb-4 bg-card p-4 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-lg font-bold text-foreground">{t.settings.clearCache}</h2>
-              <p className="text-sm text-muted-foreground mt-1">{t.settings.clearCacheDesc}</p>
-            </div>
-            <button
-              onClick={() => {
-                if (confirm(t.settings.clearCacheConfirm)) {
-                  localStorage.clear();
-                  window.location.reload();
-                }
-              }}
-              className="px-4 py-2 text-sm font-medium bg-[#EB0000] text-white hover:bg-[#C50000] transition-colors rounded-full">
-              {t.settings.clearCacheButton}
-            </button>
           </div>
         </section>
       </div>

@@ -7,13 +7,38 @@ const LANGUAGES_CACHE_KEY = "yindian_languages_cache";
 /**
  * Get cached API version
  */
-function getCachedVersion(): string | null {
+const getCachedVersion = (): string | null => {
   try {
     return localStorage.getItem(VERSION_CACHE_KEY);
   } catch {
     return null;
   }
 }
+
+/**
+ * Format Unix timestamp to human-readable string based on language locale
+ */
+export const getCachedVersionString = (language: string): string | null => {
+  const timestamp = getCachedVersion();
+  if (timestamp === null) return null;
+
+  const date = new Date(Number(timestamp) * 1000); // Unix 时间戳是秒，需要转换为毫秒
+  const locale = language.replace("_", "-");
+  const dateTime = new Intl.DateTimeFormat(locale, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  }).format(date);
+  const timeZone =
+    new Intl.DateTimeFormat(locale, { timeZoneName: "short" })
+      .formatToParts(date)
+      .find(part => part.type === "timeZoneName")?.value || "";
+  return `${dateTime} ${timeZone}`;
+};
 
 /**
  * Set cached API version

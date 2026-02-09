@@ -50,8 +50,7 @@ export interface Translations {
     languageSelection: string;
     selectAll: string;
     deselectAll: string;
-    clearCache: string;
-    clearCacheDesc: string;
+    dataVersion: string;
     clearCacheButton: string;
     clearCacheConfirm: string;
   };
@@ -68,7 +67,6 @@ export interface Translations {
   about: {
     title: string;
     intro: string;
-    history: string;
     features: string;
     feature1: string;
     feature2: string;
@@ -84,7 +82,6 @@ export interface Translations {
     relatedBuJi: string;
     relatedBuJiDesc: string;
     iconCredit: string;
-    manusCredit: string;
     feedback: string;
     feedbackGithub: string;
     feedbackTelegram: string;

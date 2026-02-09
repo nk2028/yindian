@@ -31,8 +31,7 @@ const en_GB: Translations = {
     languageSelection: "Language Selection",
     selectAll: "Select All",
     deselectAll: "Deselect All",
-    clearCache: "Clear Cache",
-    clearCacheDesc: "Clear all locally stored settings and cached data",
+    dataVersion: "Yindian Data Version",
     clearCacheButton: "Clear Cache",
     clearCacheConfirm: "Are you sure you want to clear all cache? This action will reset all settings.",
   },
@@ -45,9 +44,7 @@ const en_GB: Translations = {
   about: {
     title: "About Yindian Web",
     intro:
-      "Yindian (Chinese Character Pronunciation Dictionary) is a comprehensive database of Chinese character pronunciations. It originated from MCPDict created by Maigo and is one of the earliest tools for querying Chinese character readings.",
-    history:
-      "Subsequently, numerous experts collaborated to continuously collect and organise a vast amount of pronunciation data, resulting in the Yindian mobile app. Based on the Yindian app, nk2028 released Yindian Web, enabling more users to conveniently query character pronunciations across different historical periods and geographical regions. At present, Yindian Web includes over a thousand language varieties, covering Old Chinese, Middle Chinese, Early Modern Chinese, and modern dialects.",
+      "Yindian (Chinese Character Pronunciation Dictionary) is a comprehensive database of Chinese character pronunciations. It originated from MCPDict created by Maigo and is one of the earliest tools for querying Chinese character readings. Subsequently, numerous experts collaborated to continuously collect and organise a vast amount of pronunciation data, resulting in the Yindian mobile app. Based on the Yindian app, nk2028 released Yindian Web, enabling more users to conveniently query character pronunciations across different historical periods and geographical regions. At present, Yindian Web includes over a thousand language varieties, covering Old Chinese, Middle Chinese, Early Modern Chinese, and modern dialects.",
     features: "Key Features",
     feature1:
       "Supports simultaneous lookup of multiple characters, with tabular comparison of pronunciations across different language varieties",
@@ -67,7 +64,6 @@ const en_GB: Translations = {
     relatedBuJiDesc:
       "Provides Middle Chinese lookup, phoneme lookup, tone lookup, character lookup, regional mapping, custom mapping features, and more",
     iconCredit: "Yindian Web icon created by Ayaka",
-    manusCredit: "Built with Manus AI",
     feedback: "Feedback",
     feedbackGithub: "GitHub Issues",
     feedbackTelegram: "Telegram Group：",

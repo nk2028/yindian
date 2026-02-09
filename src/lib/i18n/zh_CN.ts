@@ -31,8 +31,7 @@ const zh_CN: Translations = {
     languageSelection: "语言选择",
     selectAll: "全选",
     deselectAll: "全不选",
-    clearCache: "清除缓存",
-    clearCacheDesc: "清除所有本地存储的设置和缓存数据",
+    dataVersion: "音典数据版本",
     clearCacheButton: "清除缓存",
     clearCacheConfirm: "确定要清除所有缓存吗？此操作将重置所有设置。",
   },
@@ -44,9 +43,8 @@ const zh_CN: Translations = {
   },
   about: {
     title: "关于音典网页版",
-    intro: "汉字音典是全面收集汉字读音的数据库。它源自 Maigo 制作的 MCPDict，是最早的汉字读音查询工具之一。",
-    history:
-      "此后，由众多专家联手，不断收集整理大量汉字读音资料，制作了汉字音典 APP。nk2028 基于汉字音典 APP 发布了音典网页版，让更多使用者能够方便地查询汉字在不同时代、不同地区的读音。目前音典网页版收录了千余种语言变体，涵盖上古音、中古音、近代音及现代方言。",
+    intro:
+      "汉字音典是全面收集汉字读音的数据库。它源自 Maigo 制作的 MCPDict，是最早的汉字读音查询工具之一。此后，由众多专家联手，不断收集整理大量汉字读音资料，制作了汉字音典 APP。nk2028 基于汉字音典 APP 发布了音典网页版，让更多使用者能够方便地查询汉字在不同时代、不同地区的读音。目前音典网页版收录了千余种语言变体，涵盖上古音、中古音、近代音及现代方言。",
     features: "主要功能",
     feature1: "支持多字同时查询，以表格形式横向对比不同语言变体的读音",
     feature2: "提供三种显示模式（地图集二/音典/陈邡），满足不同用户的查询习惯",
@@ -62,7 +60,6 @@ const zh_CN: Translations = {
     relatedBuJi: "不羁开发的方音图鉴",
     relatedBuJiDesc: "提供了查中古、查音位、查调、查字、分区绘图、自定义绘图等功能",
     iconCredit: "音典网页版图标由绫香制作",
-    manusCredit: "使用 Manus AI 制作",
     feedback: "反馈问题",
     feedbackGithub: "GitHub Issues",
     feedbackTelegram: "Telegram 群组：",

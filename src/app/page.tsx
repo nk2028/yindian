@@ -36,7 +36,7 @@ function Navigation() {
                 type="button"
                 onClick={() => setPage(item.key)}
                 className={`px-4 py-2 text-sm font-bold transition-colors rounded-full ${
-                  page === item.key ? "bg-white text-[#EB0000]" : "text-white hover:bg-gray-200 hover:text-gray-800"
+                  page === item.key ? "bg-white text-[#EB0000]" : "text-white hover:bg-white/30"
                 }`}
               />
             ))}
