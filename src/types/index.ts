@@ -14,13 +14,13 @@ export type LanguageInfo = [
   number, // 0: 語言ID
   string, // 1: 語言 (full name)
   string, // 2: 簡稱 (abbreviation)
-  string, // 3: 地圖集二排序
+  string | null, // 3: 地圖集二排序
   string, // 4: 地圖集二顏色
   string, // 5: 地圖集二分區
-  string, // 6: 音典排序
+  string | null, // 6: 音典排序
   string, // 7: 音典顏色
   string, // 8: 音典分區
-  string, // 9: 陳邡排序
+  string | null, // 9: 陳邡排序
   string, // 10: 陳邡顏色
   string, // 11: 陳邡分區
   string, // 12: 地點 (location)
@@ -36,18 +36,18 @@ export type LanguageInfo = [
  */
 export type 字音數據 = [number, string, string?];
 
-/**
- * Character query result
- * Format: [character, [[langId, 字音, 註釋?], ...]]
- */
-export type CharacterResult = [string, 字音數據[]];
+export type CharacterResultMultiple = [string, string?][];
+export type CharacterResultItem = string | CharacterResultMultiple;
+export type CharacterResultTableHeader<T extends string[]> = [string, ...T];
+export type CharacterResultTableRow<T extends string[]> = [number, ...{ [K in keyof T]: CharacterResultItem }];
+export type CharacterResultTable<T extends string[]> = [CharacterResultTableHeader<T>, ...CharacterResultTableRow<T>[]];
 
 /**
  * Display mode for sorting and coloring
  */
 export const displayModes = ["地圖集二", "音典", "陳邡"] as const;
 
-export type DisplayMode = typeof displayModes[number];
+export type DisplayMode = (typeof displayModes)[number];
 
 /**
  * Display mode configuration
@@ -63,7 +63,7 @@ export interface DisplayModeConfig {
  */
 export const pages = ["query", "settings", "about"] as const;
 
-export type Pages = typeof pages[number];
+export type Pages = (typeof pages)[number];
 
 /**
  * Language code for UI
@@ -108,33 +108,24 @@ export const 廣韻字段列表 = [
 /**
  * 廣韻字段名稱
  */
-export type 廣韻字段 = typeof 廣韻字段列表[number];
+export type 廣韻字段 = (typeof 廣韻字段列表)[number];
 
 /**
  * 中原音韻字段列表
  */
-export const 中原音韻字段列表 = [
-  "楊耐思",
-  "寧繼福",
-  "薛鳳生（音位形式）",
-  "unt（音位形式）",
-  "unt",
-] as const;
+export const 中原音韻字段列表 = ["楊耐思", "寧繼福", "薛鳳生（音位形式）", "unt（音位形式）", "unt"] as const;
 
-export type 中原音韻字段 = typeof 中原音韻字段列表[number];
+export type 中原音韻字段 = (typeof 中原音韻字段列表)[number];
 
 /**
  * 所有東干甘肅話字段（按順序）
  */
-export const 東干甘肅話字段列表 = [
-  "音標",
-  "西里爾字母",
-] as const;
+export const 東干甘肅話字段列表 = ["音標", "西里爾字母"] as const;
 
 /**
  * 東干甘肅話字段名稱
  */
-export type 東干甘肅話字段 = typeof 東干甘肅話字段列表[number];
+export type 東干甘肅話字段 = (typeof 東干甘肅話字段列表)[number];
 
 /**
  * User settings
@@ -142,9 +133,9 @@ export type 東干甘肅話字段 = typeof 東干甘肅話字段列表[number];
 export interface UserSettings {
   displayMode: DisplayMode;
   selectedLanguages: Set<number>; // Set of language IDs
-  廣韻字段: Set<廣韻字段>; // 選中要顯示的廣韻字段
-  中原音韻字段: Set<中原音韻字段>; // 選中要顯示的中原音韻字段
-  東干甘肅話字段: Set<東干甘肅話字段>; // 選中要顯示的東干甘肅話字段
+  廣韻字段: Set<廣韻字段>;
+  中原音韻字段: Set<中原音韻字段>;
+  東干甘肅話字段: Set<東干甘肅話字段>;
   theme: Theme; // UI theme (light/dark)
 }
 
@@ -155,7 +146,7 @@ export interface ProcessedLanguage {
   id: number;
   name: string;
   abbreviation: string;
-  sortOrder: number;
+  sortOrder: string | null;
   color: string;
   region: string;
   location: string;
@@ -171,6 +162,6 @@ export interface TableRow {
   languageAbbr: string;
   color: string;
   region: string;
-  sortOrder: number;
-  字音列表: { [char: string]: string }; // char -> 字音
+  sortOrder: string;
+  字音列表: CharacterResultItem[];
 }

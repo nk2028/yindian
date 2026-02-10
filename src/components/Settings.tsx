@@ -46,11 +46,13 @@ export default function Settings() {
       }
       groups.get(region)!.push(lang);
     });
-    // Sort by minimum sortOrder in each region (sortOrder is already based on current display mode)
+
+    // TODO: simplify this sorting logic
     return Array.from(groups.entries()).sort(([, a], [, b]) => {
-      const minSortOrderA = Math.min(...a.map(lang => lang.sortOrder));
-      const minSortOrderB = Math.min(...b.map(lang => lang.sortOrder));
-      return minSortOrderA - minSortOrderB;
+      // Use "龥" as a placeholder for null sort order to ensure it sorts at the end
+      const minSortOrderA = a.map(lang => lang.sortOrder).sort((x, y) => (x ?? "龥").localeCompare(y ?? "龥"))[0];
+      const minSortOrderB = b.map(lang => lang.sortOrder).sort((x, y) => (x ?? "龥").localeCompare(y ?? "龥"))[0];
+      return (minSortOrderA ?? "龥").localeCompare(minSortOrderB ?? "龥");
     });
   }, [filteredLanguages]);
 

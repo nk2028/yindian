@@ -24,13 +24,13 @@
 pnpm install
 
 # 啟動開發服務器
-pnpm next dev
+pnpm dev
 
 # 構建生產版本
-pnpm next build
+pnpm build
 
 # 預覽生產構建
-pnpm next start
+pnpm start
 ```
 
 ## GitHub 仓庫

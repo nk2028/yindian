@@ -1,8 +1,10 @@
 "use client";
 
+import React from "react";
+
 import { queryCharacters } from "@/lib/api";
-import { buildTableRows, parse廣韻字音, parse中原音韻字音, parse東干甘肅話字音 } from "@/lib/dataProcessor";
-import type { CharacterResult, ProcessedLanguage, TableRow } from "@/types";
+import { buildTableRows, parse特殊語言字音 } from "@/lib/dataProcessor";
+import { CharacterResultItem, ProcessedLanguage, TableRow, UserSettings } from "@/types";
 import { useState, useEffect } from "react";
 import { useApp } from "@/contexts/AppContext";
 import { getTranslation } from "@/lib/i18n";
@@ -30,6 +32,92 @@ const MagnifyingGlassIcon = () => (
     />
   </svg>
 );
+
+const SpecialCharReadingFragments = ({
+  parsedList,
+}: {
+  parsedList: { field: string; fieldValue: string; lang: string }[];
+}) => {
+  return (
+    <>
+      {parsedList.map((item, idx) => (
+        <React.Fragment key={idx}>
+          <span title={item.field} lang={item.lang}>
+            {item.fieldValue}
+          </span>
+          {idx !== parsedList.length - 1 && "/"}
+        </React.Fragment>
+      ))}
+    </>
+  );
+};
+
+const CharReadingBox = ({
+  字音,
+  langAbbr,
+  idx,
+  settings,
+}: {
+  字音: CharacterResultItem;
+  langAbbr: string;
+  idx: number;
+  settings: UserSettings;
+}) => {
+  const isSpecialLanguage = langAbbr === "廣韻" || langAbbr === "中原音韻" || langAbbr === "東干甘肅話";
+  const is女書 = langAbbr === "江永上江墟";
+
+  if (typeof 字音 === "string") {
+    return (
+      <td
+        key={idx}
+        {...(isSpecialLanguage ? {} : { lang: "zh-Latn-fonipa" })}
+        className="border border-border px-2 py-1 text-sm bg-card font-mono break-words overflow-hidden text-foreground"
+        style={{ width: "192px", maxWidth: "192px", minWidth: "192px" }}>
+        {isSpecialLanguage ? (
+          <SpecialCharReadingFragments parsedList={parse特殊語言字音(字音, settings, langAbbr)} />
+        ) : (
+          字音
+        )}
+      </td>
+    );
+  }
+
+  // 多音字
+  else if (Array.isArray(字音)) {
+    return (
+      <td
+        key={idx}
+        className="border border-border px-2 py-1 text-sm bg-card font-mono break-words overflow-hidden text-foreground"
+        style={{ width: "192px", maxWidth: "192px", minWidth: "192px" }}>
+        {字音.map((item, idx) => {
+          const 音標 = item[0];
+          const 注釋 = item[1] ?? null;
+
+          return (
+            <div key={idx} className="mb-1 last:mb-0">
+              {isSpecialLanguage ? (
+                <SpecialCharReadingFragments parsedList={parse特殊語言字音(音標, settings, langAbbr)} />
+              ) : (
+                <span lang="zh-Latn-fonipa">{音標}</span>
+              )}
+              {注釋 && (
+                <span lang={is女書 ? "zh-Nshu" : "zh-HK"} className="ml-1 text-xs text-muted-foreground">
+                  {注釋}
+                </span>
+              )}
+            </div>
+          );
+        })}
+      </td>
+    );
+  }
+};
+
+const makeRow = (row: TableRow, settings: UserSettings) => {
+  return row.字音列表.map((字音: CharacterResultItem, charIdx: number) => {
+    return <CharReadingBox key={charIdx} 字音={字音} langAbbr={row.languageAbbr} idx={charIdx} settings={settings} />;
+  });
+};
 
 const Query = () => {
   const {
@@ -91,9 +179,6 @@ const Query = () => {
     }
   }, [contextQueryResults, processedLanguages, settings.selectedLanguages]);
 
-  // Extract characters from query results
-  const characters = contextQueryResults ? contextQueryResults.map(([char]: CharacterResult) => char) : [];
-
   return (
     <div className="bg-background">
       {/* Query Input Section */}
@@ -121,7 +206,7 @@ const Query = () => {
       </div>
 
       {/* Results Table Section */}
-      {tableRows.length > 0 && (
+      {contextQueryResults !== null && tableRows.length > 0 && (
         <div className="p-4 flex justify-center">
           <div className="overflow-x-auto shadow-sm">
             <table className="border-collapse border border-border bg-card">
@@ -130,7 +215,7 @@ const Query = () => {
                   <th
                     className="border border-border px-2 py-1 text-left text-sm font-bold bg-[#EB0000]"
                     style={{ width: "128px", maxWidth: "128px", minWidth: "128px" }}></th>
-                  {characters.map((char: string, idx: number) => (
+                  {(contextQueryResults[0].slice(1) as string[]).map((char: string, idx: number) => (
                     <th
                       key={idx}
                       className="border border-border px-2 py-1 text-center text-lg font-bold bg-[#EB0000]"
@@ -163,48 +248,7 @@ const Query = () => {
                           {row.languageAbbr}
                         </span>
                       </td>
-                      {characters.map((char: string, charIdx: number) => {
-                        let 字音 = row.字音列表[char] || "—";
-                        let isHTML = false;
-                        // Special handling for Guangyun (廣韻) data
-                        if (row.languageAbbr === "廣韻" && 字音 !== "—") {
-                          字音 = parse廣韻字音(字音, settings.廣韻字段);
-                          isHTML = true; // Guangyun data contains HTML tags
-                        }
-
-                        // Special handling for 中原音韻 data
-                        if (row.languageAbbr === "中原音韻" && 字音 !== "—") {
-                          字音 = parse中原音韻字音(字音, settings.中原音韻字段);
-                          isHTML = true; // 中原音韻 data contains HTML tags
-                        }
-
-                        // Special handling for 東干甘肅話 data
-                        if (row.languageAbbr === "東干甘肅話" && 字音 !== "—") {
-                          字音 = parse東干甘肅話字音(字音, settings.東干甘肅話字段);
-                          isHTML = true; // 東干甘肅話 data contains HTML tags
-                        }
-
-                        // Render with HTML or plain text
-                        if (isHTML) {
-                          return (
-                            <td
-                              key={`char-${charIdx}`}
-                              className="border border-border px-2 py-1 text-sm bg-card font-mono break-words overflow-hidden text-foreground"
-                              style={{ width: "192px", maxWidth: "192px", minWidth: "192px" }}
-                              dangerouslySetInnerHTML={{ __html: 字音 }}
-                            />
-                          );
-                        }
-
-                        return (
-                          <td
-                            key={`char-${charIdx}`}
-                            className="border border-border px-2 py-1 text-sm bg-card font-mono break-words overflow-hidden text-foreground"
-                            style={{ width: "192px", maxWidth: "192px", minWidth: "192px" }}>
-                            {字音}
-                          </td>
-                        );
-                      })}
+                      {makeRow(row, settings)}
                     </tr>
                   );
                 })}

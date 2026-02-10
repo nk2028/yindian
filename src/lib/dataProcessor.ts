@@ -1,13 +1,13 @@
 import type {
-  CharacterResult,
+  CharacterResultTable,
   DisplayMode,
   DisplayModeConfig,
-  廣韻字段,
-  中原音韻字段,
-  東干甘肅話字段,
   LanguageInfo,
   ProcessedLanguage,
   TableRow,
+  CharacterResultTableRow,
+  CharacterResultItem,
+  UserSettings,
 } from "@/types";
 import { 廣韻字段列表, 中原音韻字段列表, 東干甘肅話字段列表 } from "@/types";
 import { Translations } from "./i18n";
@@ -43,7 +43,7 @@ export function processLanguages(languages: LanguageInfo[], displayMode: Display
     id: Number(lang[0]),
     name: String(lang[1]),
     abbreviation: String(lang[2]),
-    sortOrder: lang[config.sortIndex] as number,
+    sortOrder: lang[config.sortIndex] as string | null,
     color: lang[config.colorIndex] as string,
     region: lang[config.regionIndex] as string,
     location: lang[12],
@@ -55,7 +55,7 @@ export function processLanguages(languages: LanguageInfo[], displayMode: Display
  * Build table rows from query results
  */
 export function buildTableRows(
-  queryResults: CharacterResult[],
+  queryResults: CharacterResultTable<string[]>,
   processedLanguages: ProcessedLanguage[],
   selectedLanguageIds: Set<number>,
 ): TableRow[] {
@@ -65,49 +65,31 @@ export function buildTableRows(
     langMap.set(lang.id, lang);
   });
 
-  // Create a map of language ID to 字音 for each character
-  const lang字音映射 = new Map<number, { [char: string]: string }>();
+  const queryTableRows = queryResults.slice(1) as CharacterResultTableRow<string[]>[];
 
-  // Collect all 字音
-  queryResults.forEach(([char, 字音數據列表]) => {
-    字音數據列表.forEach(([langId, 字音, 註釋]) => {
-      if (!lang字音映射.has(langId)) {
-        lang字音映射.set(langId, {});
-      }
-      const lang字音 = lang字音映射.get(langId)!;
-
-      const displayText = 註釋 ? `${字音} (${註釋})` : 字音;
-
-      // If this language already has a 字音 for this character, append with separator
-      if (lang字音[char]) {
-        lang字音[char] += "; " + displayText;
-      } else {
-        lang字音[char] = displayText;
-      }
-    });
-  });
-
-  // Build rows only for languages that have data and are selected
   const rows: TableRow[] = [];
-  lang字音映射.forEach((字音列表, langId) => {
+  queryTableRows.forEach(row => {
+    const langId = row[0];
     if (!selectedLanguageIds.has(langId)) return;
 
     const lang = langMap.get(langId);
     if (!lang) return;
 
+    const { name: languageName, abbreviation: languageAbbr, color, region, sortOrder } = lang;
+    const 字音列表 = row.slice(1) as CharacterResultItem[];
     rows.push({
       languageId: langId,
-      languageName: lang.name,
-      languageAbbr: lang.abbreviation,
-      color: lang.color,
-      region: lang.region,
-      sortOrder: lang.sortOrder,
+      languageName,
+      languageAbbr,
+      color,
+      region,
+      sortOrder: sortOrder ?? "龥", // Use "龥" as a placeholder for null sort order to ensure it sorts at the end
       字音列表,
     });
   });
 
   // Sort by sort order
-  rows.sort((a, b) => a.sortOrder - b.sortOrder);
+  rows.sort((a, b) => a.sortOrder.localeCompare(b.sortOrder));
 
   return rows;
 }
@@ -126,166 +108,70 @@ export function getDisplayModeLabel(mode: DisplayMode, t: Translations): string 
   }
 }
 
-/**
- * 廣韻字段類型標記（24個字段）
- * l: Romanization (羅馬化)
- * i: IPA (國際音標)
- * c: Cyrillic Romanization (西里爾羅馬化)
- * h: 漢字/文本
- * #: 其他
- */
-const 廣韻字段類型 = "lllliiiiiiiiiiiiiih#hhhh";
+// 類型標記
+// l: Romanization (羅馬化)
+// i: IPA (國際音標)
+// c: Cyrillic Romanization (西里爾羅馬化)
+// h: 漢字/文本
+// #: 其他
+type 字段類型 = "l" | "i" | "c" | "h" | "#";
+const 廣韻字段類型 = [..."lllliiiiiiiiiiiiiih#hhhh"] as readonly 字段類型[];
+const 中原音韻字段類型 = [..."iiiii"] as readonly 字段類型[];
+const 東干甘肅話字段類型 = [..."ic"] as readonly 字段類型[];
 
-/**
- * 中原音韻字段類型標記（5個字段）
- * i: IPA (國際音標)
- */
-const 中原音韻字段類型 = "iiiii";
-
-/**
- * 東干甘肅話字段類型標記（2個字段）
- * c: Cyrillic Romanization (西里爾羅馬化)
- * i: IPA (國際音標)
- */
-const 東干甘肅話字段類型 = "ic";
-
-/**
- * 包裝 IPA 音標
- */
-function wrapIPA(字音: string): string {
-  return `<span lang="zh-Latn-fonipa">${字音}</span>`;
-}
-
-/**
- * 包裝羅馬化
- */
-function wrapRomanization(字音: string, script: string = "Latn"): string {
-  return `<span lang="zh-${script}">${字音}</span>`;
-}
-
-/**
- * 解析廣韻字音數據並提取選中字段
- * @param 字音 原始字音字串，可能包含多個字音用 '; ' 分隔，每個字音的字段用 '/' 分隔
- * @param selectedFields 要提取的字段集合
- * @returns 格式化後的字串，只包含選中字段
- */
-export function parse廣韻字音(字音: string, selectedFields: Set<廣韻字段>): string {
-  // Handle multiple 字音 separated by '; '
-  if (字音.includes("; ")) {
-    const 字音列表 = 字音.split("; ");
-    return 字音列表.map(p => parse廣韻字音(p, selectedFields)).join("; ");
-  }
-
-  // Split by '/' to get all fields
+export function parse特殊語言字音(
+  字音: string,
+  settings: UserSettings,
+  langAbbr: "廣韻" | "中原音韻" | "東干甘肅話",
+): { field: string; fieldValue: string; lang: string }[] {
   const parts = 字音.split("/");
 
-  // Handle short format (less than 24 fields) - just return as is
-  // This happens when API returns simplified data like "rut" without full field breakdown
-  if (parts.length < 廣韻字段列表.length) {
-    return 字音;
+  let 字段列表: readonly string[];
+  let 字段類型: readonly 字段類型[];
+  let selectedFields: ReadonlySet<string>;
+  switch (langAbbr) {
+    case "廣韻":
+      字段列表 = 廣韻字段列表;
+      字段類型 = 廣韻字段類型;
+      selectedFields = settings.廣韻字段;
+      break;
+    case "中原音韻":
+      字段列表 = 中原音韻字段列表;
+      字段類型 = 中原音韻字段類型;
+      selectedFields = settings.中原音韻字段;
+      break;
+    case "東干甘肅話":
+      字段列表 = 東干甘肅話字段列表;
+      字段類型 = 東干甘肅話字段類型;
+      selectedFields = settings.東干甘肅話字段;
+      break;
   }
 
   // Extract selected fields from full 24-field format with type wrapping
-  const selectedParts: string[] = [];
-  廣韻字段列表.forEach((field, index) => {
+  const selectedParts: { field: string; fieldValue: string; lang: string }[] = [];
+  字段列表.forEach((field, index) => {
     if (selectedFields.has(field) && parts[index]) {
-      let fieldValue = parts[index];
-      const fieldType = 廣韻字段類型[index];
+      const fieldValue = parts[index];
+      const fieldType = 字段類型[index];
 
       // Apply formatting based on field type
       switch (fieldType) {
         case "i":
-          fieldValue = wrapIPA(fieldValue);
+          selectedParts.push({ field, fieldValue, lang: "zh-Latn-fonipa" });
           break;
         case "l":
-          fieldValue = wrapRomanization(fieldValue);
+          selectedParts.push({ field, fieldValue, lang: "zh-Latn" });
           break;
         case "c":
-          fieldValue = wrapRomanization(fieldValue, "Cyrl");
+          selectedParts.push({ field, fieldValue, lang: "zh-Cyrl" });
           break;
-        // 'h' and '#' types don't need special wrapping
+        case "h":
+        case "#":
+          selectedParts.push({ field, fieldValue, lang: "zh-HK" });
+          break;
       }
-
-      selectedParts.push(fieldValue);
     }
   });
 
-  // Join with ' / ' for better readability
-  return selectedParts.length > 0 ? selectedParts.join("/") : 字音;
-}
-
-export function parse中原音韻字音(字音: string, selectedFields: Set<中原音韻字段>): string {
-  // Handle multiple 字音 separated by '; '
-  if (字音.includes("; ")) {
-    const 字音列表 = 字音.split("; ");
-    return 字音列表.map(p => parse中原音韻字音(p, selectedFields)).join("; ");
-  }
-
-  // Split by '/' to get all fields
-  const parts = 字音.split("/");
-
-  // Handle short format (less than 5 fields) - just return as is
-  if (parts.length < 中原音韻字段列表.length) {
-    return 字音;
-  }
-
-  // Extract selected fields from full 5-field format with type wrapping
-  const selectedParts: string[] = [];
-  中原音韻字段列表.forEach((field, index) => {
-    if (selectedFields.has(field) && parts[index]) {
-      let fieldValue = parts[index];
-      const fieldType = 中原音韻字段類型[index];
-
-      // Apply formatting based on field type
-      if (fieldType === "i") {
-        fieldValue = wrapIPA(fieldValue);
-      }
-
-      selectedParts.push(fieldValue);
-    }
-  });
-
-  // Join with ' / ' for better readability
-  return selectedParts.length > 0 ? selectedParts.join("/") : 字音;
-}
-
-export function parse東干甘肅話字音(字音: string, selectedFields: Set<東干甘肅話字段>): string {
-  // Handle multiple 字音 separated by '; '
-  if (字音.includes("; ")) {
-    const 字音列表 = 字音.split("; ");
-    return 字音列表.map(p => parse東干甘肅話字音(p, selectedFields)).join("; ");
-  }
-
-  // Split by '/' to get all fields
-  const parts = 字音.split("/");
-
-  // Handle short format (less than 2 fields) - just return as is
-  if (parts.length < 東干甘肅話字段列表.length) {
-    return 字音;
-  }
-
-  // Extract selected fields from full 2-field format with type wrapping
-  const selectedParts: string[] = [];
-  東干甘肅話字段列表.forEach((field, index) => {
-    if (selectedFields.has(field) && parts[index]) {
-      let fieldValue = parts[index];
-      const fieldType = 東干甘肅話字段類型[index];
-
-      // Apply formatting based on field type
-      switch (fieldType) {
-        case "i":
-          fieldValue = wrapIPA(fieldValue);
-          break;
-        case "c":
-          fieldValue = wrapRomanization(fieldValue, "Cyrl");
-          break;
-        // 'h' type doesn't need special wrapping
-      }
-
-      selectedParts.push(fieldValue);
-    }
-  });
-
-  // Join with ' / ' for better readability
-  return selectedParts.length > 0 ? selectedParts.join("/") : 字音;
+  return selectedParts;
 }
