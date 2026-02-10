@@ -47,11 +47,20 @@ export default function Settings() {
       groups.get(region)!.push(lang);
     });
 
-    return Array.from(groups.entries()).sort(([, a], [, b]) => {
-      // Use "龥" as a placeholder for null sort order to ensure it sorts at the end
-      const minSortOrderA = a.map(lang => lang.sortOrder).sort((x, y) => (x ?? "龥").localeCompare(y ?? "龥"))[0];
-      const minSortOrderB = b.map(lang => lang.sortOrder).sort((x, y) => (x ?? "龥").localeCompare(y ?? "龥"))[0];
-      return (minSortOrderA ?? "龥").localeCompare(minSortOrderB ?? "龥");
+    // Precompute minimum sortOrder for each region once
+    const regionMinSortOrder = new Map<string, string>();
+    groups.forEach((languages, region) => {
+      const minSortOrder = languages.reduce((min, lang) => {
+        const sortOrder = lang.sortOrder ?? "龥";
+        return min === null || sortOrder.localeCompare(min) < 0 ? sortOrder : min;
+      }, null as string | null);
+      regionMinSortOrder.set(region, minSortOrder ?? "龥");
+    });
+
+    return Array.from(groups.entries()).sort(([regionA], [regionB]) => {
+      const minSortOrderA = regionMinSortOrder.get(regionA)!;
+      const minSortOrderB = regionMinSortOrder.get(regionB)!;
+      return minSortOrderA.localeCompare(minSortOrderB);
     });
   }, [filteredLanguages]);
 
