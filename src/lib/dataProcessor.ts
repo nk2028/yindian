@@ -127,7 +127,7 @@ export function parse特殊語言字音(
 
   let 字段列表: readonly string[];
   let 字段類型;
-  let selectedFields: Set<string>;
+  let selectedFields: ReadonlySet<string>;
   switch (langAbbr) {
     case "廣韻":
       字段列表 = 廣韻字段列表;
