@@ -2,15 +2,6 @@
 @import "./scrollbar.css";
 @import "./CharisSIL.css";
 @import "./SBBWeb.css";
-@import "./NotoTraditionalNushu.css";
-
-/* Swiss SBB Modern Style - Design Tokens
- * Movement: Contemporary Swiss Design (2020s SBB branding)
- * Principles: Bold, efficient, high-energy, functional clarity
- * Color: SBB Red (#EB0000) dominant, white, light grays
- * Layout: Minimal spacing, sharp edges, strong visual hierarchy
- * Typography: Bold sans-serif, high contrast
- */
 
 @theme inline {
   --radius-sm: 0px;
@@ -193,13 +184,38 @@
   }
 }
 
-/* Language-specific font styles */
+:lang(zh-HK) {
+  font-family:
+    "SBB", "Helvetica Neue", Helvetica, Arial, "Source Han Sans HC", "Source Han Sans K", "Noto Sans CJK KR",
+    "Source Han Sans SC", "Noto Sans CJK SC", "Source Han Sans", "Noto Sans CJK JP", "Source Han Sans TC",
+    "Noto Sans CJK TC", "Noto Sans KR", "Noto Sans SC", "Noto Sans TC", sans-serif, sans-serif;
+    /* Not yet enabled:
+    font-language-override: "KOR"; */
+}
+
 :lang(zh-Latn),
 :lang(zh-Cyrl) {
-  font-family: "Charis SIL", serif;
+  font-family:
+    "Charis SIL", "Source Han Sans HC", "Source Han Sans K", "Noto Sans CJK KR", "Source Han Sans SC",
+    "Noto Sans CJK SC", "Source Han Sans", "Noto Sans CJK JP", "Source Han Sans TC", "Noto Sans CJK TC", "Noto Sans KR",
+    "Noto Sans SC", "Noto Sans TC", sans-serif, sans-serif;
   font-style: italic;
 }
 
 :lang(zh-Latn-fonipa) {
   font-style: normal;
+}
+
+:lang(zh-Phag) {
+  font-family:
+    "Noto Sans PhagsPa", "SBB", "Helvetica Neue", Helvetica, Arial, "Source Han Sans HC", "Source Han Sans K",
+    "Noto Sans CJK KR", "Source Han Sans SC", "Noto Sans CJK SC", "Source Han Sans", "Noto Sans CJK JP",
+    "Source Han Sans TC", "Noto Sans CJK TC", "Noto Sans KR", "Noto Sans SC", "Noto Sans TC", sans-serif, sans-serif;
+}
+
+:lang(zh-Nshu) {
+  font-family:
+    "Noto Traditional Nushu", "SBB", "Helvetica Neue", Helvetica, Arial, "Source Han Sans HC", "Source Han Sans K",
+    "Noto Sans CJK KR", "Source Han Sans SC", "Noto Sans CJK SC", "Source Han Sans", "Noto Sans CJK JP",
+    "Source Han Sans TC", "Noto Sans CJK TC", "Noto Sans KR", "Noto Sans SC", "Noto Sans TC", sans-serif, sans-serif;
 }
