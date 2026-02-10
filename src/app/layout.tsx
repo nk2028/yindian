@@ -33,6 +33,10 @@ export default function RootLayout({
   return (
     <html lang="zh-HK">
       <head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/nushu-script/NotoTraditionalNushu@woff-v1.0/index.css"
+        />
         <Script
           src="https://static.cloudflareinsights.com/beacon.min.js"
           strategy="afterInteractive"

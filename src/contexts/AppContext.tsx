@@ -12,7 +12,7 @@ import type {
   Theme,
   UserSettings,
   Pages,
-  CharacterResult,
+  CharacterResultTable,
 } from "@/types";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { fetchLanguages } from "@/lib/api";
@@ -46,8 +46,8 @@ interface AppContextValue {
   // Query state
   queryInput: string;
   setQueryInput: (input: string) => void;
-  queryResults: CharacterResult[] | null;
-  setQueryResults: (results: CharacterResult[] | null) => void;
+  queryResults: CharacterResultTable<string[]> | null;
+  setQueryResults: (results: CharacterResultTable<string[]> | null) => void;
 }
 
 const AppContext = createContext<AppContextValue | undefined>(undefined);
@@ -94,7 +94,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [isLoadingLanguages, setIsLoadingLanguages] = useState(true);
   const [languagesError, setLanguagesError] = useState<Error | null>(null);
   const [queryInput, setQueryInput] = useState<string>("");
-  const [queryResults, setQueryResults] = useState<CharacterResult[] | null>(null);
+  const [queryResults, setQueryResults] = useState<CharacterResultTable<string[]> | null>(null);
   const [page, setPage] = useState<Pages>("query");
   const [language, setLanguageState] = useState<Language>(getCachedDisplayLanguage() || DEFAULT_LANGUAGE);
   const [settings, setSettings] = useState<UserSettings>(() => {

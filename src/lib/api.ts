@@ -1,4 +1,4 @@
-import type { ApiResponse, CharacterResult, LanguageInfo } from "@/types";
+import type { ApiResponse, CharacterResultTable, LanguageInfo } from "@/types";
 
 const API_BASE = "https://1305783649-j61pduj0mx.ap-guangzhou.tencentscf.com";
 const VERSION_CACHE_KEY = "yindian_api_version";
@@ -135,7 +135,9 @@ export async function fetchLanguages(forceRefresh = false): Promise<LanguageInfo
  * Query character pronunciations with version checking
  * @param chars - Chinese characters to query (no spaces)
  */
-export async function queryCharacters(chars: string): Promise<{ version: string; data: CharacterResult[] }> {
+export async function queryCharacters(
+  chars: string,
+): Promise<{ version: string; data: CharacterResultTable<string[]> }> {
   try {
     const url = `${API_BASE}/chars/?chars=${encodeURIComponent(chars)}`;
     console.log("Fetching:", url);
@@ -151,11 +153,11 @@ export async function queryCharacters(chars: string): Promise<{ version: string;
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const apiResponse = (await response.json()) as ApiResponse<CharacterResult[]>;
+    const apiResponse = (await response.json()) as ApiResponse<CharacterResultTable<string[]>>;
 
     // Check version and trigger language refresh if needed
     const cachedVersion = getCachedVersion();
-    const currentVersion = String(apiResponse.version); // Ensure version is string for comparison
+    const currentVersion = apiResponse.version;
     if (cachedVersion && cachedVersion !== currentVersion) {
       console.log(`Version mismatch detected. Cached: ${cachedVersion}, API: ${currentVersion}`);
       // Trigger background refresh of languages
