@@ -52,9 +52,9 @@ export default function Settings() {
     groups.forEach((languages, region) => {
       const minSortOrder = languages.reduce((min, lang) => {
         const sortOrder = lang.sortOrder ?? "龥";
-        return min === null || sortOrder.localeCompare(min) < 0 ? sortOrder : min;
-      }, null as string | null);
-      regionMinSortOrder.set(region, minSortOrder ?? "龥");
+        return sortOrder.localeCompare(min) < 0 ? sortOrder : min;
+      }, "龥");
+      regionMinSortOrder.set(region, minSortOrder);
     });
 
     return Array.from(groups.entries()).sort(([regionA], [regionB]) => {
