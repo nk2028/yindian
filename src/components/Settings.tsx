@@ -47,6 +47,7 @@ export default function Settings() {
       groups.get(region)!.push(lang);
     });
 
+    // TODO: simplify this sorting logic
     return Array.from(groups.entries()).sort(([, a], [, b]) => {
       // Use "龥" as a placeholder for null sort order to ensure it sorts at the end
       const minSortOrderA = a.map(lang => lang.sortOrder).sort((x, y) => (x ?? "龥").localeCompare(y ?? "龥"))[0];
