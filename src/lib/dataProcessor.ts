@@ -114,9 +114,10 @@ export function getDisplayModeLabel(mode: DisplayMode, t: Translations): string 
 // c: Cyrillic Romanization (西里爾羅馬化)
 // h: 漢字/文本
 // #: 其他
-const 廣韻字段類型 = "lllliiiiiiiiiiiiiih#hhhh" as const;
-const 中原音韻字段類型 = "iiiii" as const;
-const 東干甘肅話字段類型 = "ic" as const;
+type 字段類型 = "l" | "i" | "c" | "h" | "#";
+const 廣韻字段類型 = [..."lllliiiiiiiiiiiiiih#hhhh"] as readonly 字段類型[];
+const 中原音韻字段類型 = [..."iiiii"] as readonly 字段類型[];
+const 東干甘肅話字段類型 = [..."ic"] as readonly 字段類型[];
 
 export function parse特殊語言字音(
   字音: string,
@@ -126,7 +127,7 @@ export function parse特殊語言字音(
   const parts = 字音.split("/");
 
   let 字段列表: readonly string[];
-  let 字段類型;
+  let 字段類型: readonly 字段類型[];
   let selectedFields: ReadonlySet<string>;
   switch (langAbbr) {
     case "廣韻":
