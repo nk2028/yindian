@@ -1,11 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState, useMemo } from "react";
 
 import { queryCharacters } from "@/lib/api";
 import { buildTableRows, parse特殊語言字音 } from "@/lib/dataProcessor";
 import { CharacterResultItem, ProcessedLanguage, TableRow, UserSettings } from "@/types";
-import { useState, useEffect } from "react";
 import { useApp } from "@/contexts/AppContext";
 import { getTranslation } from "@/lib/i18n";
 import LanguageDetailModal from "@/components/LanguageDetailModal";
@@ -52,6 +51,16 @@ const SpecialCharReadingFragments = ({
   );
 };
 
+function renderTextWithStrong(text: string) {
+  const parts = text.split("*");
+  return <>{parts.map((part, index) => (index % 2 === 1 ? <strong key={index}>{part}</strong> : part))}</>;
+}
+
+// TODO: This is a workaround. Fix this in the backend instead.
+const removeSpaceBetweenTwoChineseChars = (text: string): string => {
+  return text.replace(/(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])/g, "");
+};
+
 const CharReadingBox = ({
   字音,
   langAbbr,
@@ -64,6 +73,7 @@ const CharReadingBox = ({
   settings: UserSettings;
 }) => {
   const isSpecialLanguage = langAbbr === "廣韻" || langAbbr === "中原音韻" || langAbbr === "東干甘肅話";
+  const is八思巴字 = langAbbr === "蒙古字韻";
   const is女書 = langAbbr === "江永上江墟";
 
   if (typeof 字音 === "string") {
@@ -101,8 +111,10 @@ const CharReadingBox = ({
                 <span lang="zh-Latn-fonipa">{音標}</span>
               )}
               {注釋 && (
-                <span lang={is女書 ? "zh-Nshu" : "zh-HK"} className="ml-1 text-xs text-muted-foreground">
-                  {注釋}
+                <span
+                  lang={is女書 ? "zh-Nshu" : is八思巴字 ? "zh-Phag" : "zh-HK"}
+                  className="ml-1 text-xs text-muted-foreground">
+                  {renderTextWithStrong(removeSpaceBetweenTwoChineseChars(注釋))}
                 </span>
               )}
             </div>
@@ -130,7 +142,6 @@ const Query = () => {
     setQueryResults: setContextQueryResults,
   } = useApp();
   const t = getTranslation(language);
-  const [tableRows, setTableRows] = useState<TableRow[]>([]);
   const [isQuerying, setIsQuerying] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasQueried, setHasQueried] = useState(!!contextQueryResults);
@@ -147,11 +158,6 @@ const Query = () => {
       const response = await queryCharacters(queryInput.trim());
       const results = response.data;
       setContextQueryResults(results);
-
-      // Build table rows
-      const rows = buildTableRows(results, processedLanguages, settings.selectedLanguages);
-      console.log("Table rows built:", rows.length);
-      setTableRows(rows);
     } catch (err) {
       // Show specific error message
       if (err instanceof Error) {
@@ -171,12 +177,11 @@ const Query = () => {
     }
   };
 
-  // Rebuild table rows when contextQueryResults or settings change
-  useEffect(() => {
-    if (contextQueryResults && contextQueryResults.length > 0) {
-      const rows = buildTableRows(contextQueryResults, processedLanguages, settings.selectedLanguages);
-      setTableRows(rows);
+  const tableRows = useMemo(() => {
+    if (contextQueryResults === null) {
+      return null;
     }
+    return buildTableRows(contextQueryResults, processedLanguages, settings.selectedLanguages);
   }, [contextQueryResults, processedLanguages, settings.selectedLanguages]);
 
   return (
@@ -206,7 +211,7 @@ const Query = () => {
       </div>
 
       {/* Results Table Section */}
-      {contextQueryResults !== null && tableRows.length > 0 && (
+      {contextQueryResults !== null && tableRows !== null && tableRows.length > 0 && (
         <div className="p-4 flex justify-center">
           <div className="overflow-x-auto shadow-sm">
             <table className="border-collapse border border-border bg-card">
