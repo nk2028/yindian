@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 
 import { queryCharacters } from "@/lib/api";
 import { buildTableRows, parse特殊語言字音 } from "@/lib/dataProcessor";
@@ -177,10 +177,12 @@ const Query = () => {
     }
   };
 
-  const tableRows =
-    contextQueryResults === null
-      ? null
-      : buildTableRows(contextQueryResults, processedLanguages, settings.selectedLanguages);
+  const tableRows = useMemo(() => {
+    if (contextQueryResults === null) {
+      return null;
+    }
+    return buildTableRows(contextQueryResults, processedLanguages, settings.selectedLanguages);
+  }, [contextQueryResults, processedLanguages, settings.selectedLanguages]);
 
   return (
     <div className="bg-background">
