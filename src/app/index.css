@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "./scrollbar.css";
 @import "./CharisSIL.css";
-@import "./SBBWeb.css";
 
 @theme inline {
   --radius-sm: 0px;
