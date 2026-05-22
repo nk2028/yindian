@@ -25,6 +25,7 @@ function Navigation() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-14">
           <div className="flex items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/yindian/icon.svg" alt="音典" className="w-8 h-8 invert" />
             <span className="text-xl font-bold tracking-tight [:lang(en)_&]:tracking-wide">{t.nav.title}</span>
           </div>

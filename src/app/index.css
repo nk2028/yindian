@@ -207,7 +207,7 @@
 }
 
 :lang(zh-Phag) {
-  font-family: "Noto Sans PhagsPa", var(--font-sans), var(--font-cjk-sans), sans-serif, sans-serif;
+  font-family: var(--font-phags-pa), var(--font-sans), var(--font-cjk-sans), sans-serif, sans-serif;
 }
 
 :lang(zh-Nshu) {

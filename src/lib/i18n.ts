@@ -103,7 +103,7 @@ export function getTranslation(language: Language): Translations {
   return translations[language] || translations["zh_HK"]; // Fallback to zh_HK if language not found
 }
 
-export function formatString(template: string, values: Record<string, any>): string {
+export function formatString(template: string, values: Record<string, unknown>): string {
   return template.replace(/\{(\w+)\}/g, (match, key) => {
     return values[key] !== undefined ? String(values[key]) : match;
   });
