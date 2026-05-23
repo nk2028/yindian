@@ -2,11 +2,20 @@
 
 import { useApp } from "@/contexts/AppContext";
 import { getDisplayModeLabel } from "@/lib/dataProcessor";
-import { displayModes, 廣韻字段列表, 中原音韻字段列表, 東干甘肅話字段列表 } from "@/types";
-import { useState, useMemo } from "react";
+import { displayModes, 廣韻字段列表, 中原音韻字段列表, 東干甘肅話字段列表, ProcessedLanguage } from "@/types";
+import React, { useState, useMemo } from "react";
 import { getTranslation } from "@/lib/i18n";
 import { getTextColor } from "@/lib/utils";
 import { getCachedVersionString } from "@/lib/api";
+
+interface TreeNode {
+  label: string;
+  path: string;
+  color: string;
+  languages: ProcessedLanguage[];
+  children: TreeNode[];
+  totalCount: number;
+}
 
 export default function Settings() {
   const {
@@ -26,6 +35,7 @@ export default function Settings() {
   const t = getTranslation(language);
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [expandedPaths, setExpandedPaths] = useState<Set<string>>(new Set());
 
   // Filter languages by search term
   const filteredLanguages = useMemo(() => {
@@ -55,6 +65,106 @@ export default function Settings() {
       return (minSortOrderA ?? "龥").localeCompare(minSortOrderB ?? "龥");
     });
   }, [filteredLanguages]);
+
+  const languageTree = useMemo((): TreeNode[] => {
+    const nodeMap = new Map<string, TreeNode>();
+    const roots: TreeNode[] = [];
+
+    for (const [region, langs] of languagesByRegion) {
+      if (!region) continue;
+      const parts = region.split("－");
+
+      for (let depth = 0; depth < parts.length; depth++) {
+        const path = parts.slice(0, depth + 1).join("－");
+
+        if (!nodeMap.has(path)) {
+          const node: TreeNode = {
+            label: parts[depth],
+            path,
+            color: langs[0]?.color || "#EB0000",
+            languages: [],
+            children: [],
+            totalCount: 0,
+          };
+          nodeMap.set(path, node);
+
+          if (depth === 0) {
+            roots.push(node);
+          } else {
+            const parentPath = parts.slice(0, depth).join("－");
+            nodeMap.get(parentPath)!.children.push(node);
+          }
+        }
+
+        if (depth === parts.length - 1) {
+          nodeMap.get(path)!.languages = langs;
+        }
+      }
+    }
+
+    function calcTotalCount(node: TreeNode): number {
+      const childTotal = node.children.reduce((sum, c) => sum + calcTotalCount(c), 0);
+      node.totalCount = node.languages.length + childTotal;
+      return node.totalCount;
+    }
+    roots.forEach(calcTotalCount);
+
+    return roots;
+  }, [languagesByRegion]);
+
+  const isSearching = searchTerm.trim().length > 0;
+
+  const toggleExpanded = (path: string) => {
+    setExpandedPaths(prev => {
+      const next = new Set(prev);
+      if (next.has(path)) next.delete(path);
+      else next.add(path);
+      return next;
+    });
+  };
+
+  const renderTreeNode = (node: TreeNode, depth: number = 0): React.ReactNode => {
+    const expanded = isSearching || expandedPaths.has(node.path);
+    const hasColor = node.color && node.color.replace("#", "").length === 6;
+    const textColor = hasColor ? getTextColor(node.color) : undefined;
+
+    return (
+      <div key={node.path} className="border-b border-border last:border-b-0">
+        <button
+          className="w-full text-left text-xs font-bold py-1 flex items-center gap-1 hover:brightness-90 transition-all"
+          style={{ backgroundColor: hasColor ? node.color : undefined, color: textColor, paddingLeft: `${8 + depth * 12}px`, paddingRight: "8px" }}
+          onClick={() => toggleExpanded(node.path)}>
+          <span className="flex-shrink-0 w-3">{expanded ? "▼" : "▶"}</span>
+          <span>
+            {node.label} ({node.totalCount})
+          </span>
+        </button>
+
+        {expanded && (
+          <>
+            {node.children.map(child => renderTreeNode(child, depth + 1))}
+            {node.languages.length > 0 && (
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12">
+                {node.languages.map(lang => (
+                  <label
+                    key={lang.id}
+                    className="flex items-start gap-1 p-1 hover:bg-secondary cursor-pointer border-r border-b border text-xs leading-tight">
+                    <input
+                      type="checkbox"
+                      checked={settings.selectedLanguages.has(lang.id)}
+                      onChange={() => toggleLanguage(lang.id)}
+                      className="w-3 h-3 mt-0.5 flex-shrink-0 accent-primary"
+                    />
+                    <span className="min-w-0 break-words text-foreground">{lang.name}</span>
+                  </label>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    );
+  };
 
   const selectedCount = settings.selectedLanguages.size;
   const totalCount = processedLanguages.length;
@@ -255,7 +365,7 @@ export default function Settings() {
         </section>
 
         {/* Language Selection Section */}
-        <section className="mb-4 bg-card p-4 shadow-sm max-h-[600px] overflow-y-auto">
+        <section className="mb-4 bg-card p-4 shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-lg font-bold text-foreground">
               {t.settings.languageSelection} ({selectedCount}/{totalCount})
@@ -285,36 +395,9 @@ export default function Settings() {
             />
           </div>
 
-          {/* Ultra-dense Language Grid grouped by region */}
+          {/* Hierarchical language tree grouped by region */}
           <div className="border border-border">
-            {languagesByRegion.map(([region, languages]) => {
-              const regionColor = languages[0]?.color || "#EB0000";
-              const textColor = getTextColor(regionColor);
-              return (
-                <div key={region} className="border-b border-border last:border-b-0">
-                  <div
-                    className="text-xs font-bold px-2 py-1 sticky top-0 z-10"
-                    style={{ backgroundColor: regionColor, color: textColor }}>
-                    {region} ({languages.length})
-                  </div>
-                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12">
-                    {languages.map(lang => (
-                      <label
-                        key={lang.id}
-                        className="flex items-start gap-1 p-1 hover:bg-secondary cursor-pointer border-r border-b border text-xs leading-tight">
-                        <input
-                          type="checkbox"
-                          checked={settings.selectedLanguages.has(lang.id)}
-                          onChange={() => toggleLanguage(lang.id)}
-                          className="w-3 h-3 mt-0.5 flex-shrink-0 accent-primary"
-                        />
-                        <span className="min-w-0 break-words text-foreground">{lang.name}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+            {languageTree.map(node => renderTreeNode(node))}
           </div>
         </section>
       </div>
