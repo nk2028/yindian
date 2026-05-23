@@ -93,6 +93,7 @@
 
   /* Font */
   --font-sans: "SBB", "Helvetica Neue", Helvetica, Arial;
+  --font-phags-pa: "Noto Sans PhagsPa";
   --font-cjk-sans:
     "Source Han Sans HC", "Source Han Sans K", "Noto Sans CJK KR", "Source Han Sans SC", "Noto Sans CJK SC",
     "Source Han Sans", "Noto Sans CJK JP", "Source Han Sans TC", "Noto Sans CJK TC", "Noto Sans KR", "Noto Sans SC",

@@ -132,7 +132,7 @@ export default function Settings() {
         <button
           type="button"
           aria-expanded={expanded}
-          className="w-full text-left text-xs font-bold py-1 flex items-center gap-1 hover:brightness-90 transition-all"
+          className="w-full text-left text-xs py-1 flex items-center gap-1 hover:brightness-90 transition-all"
           style={{ backgroundColor: hasColor ? node.color : undefined, color: textColor, paddingLeft: `${8 + depth * 12}px`, paddingRight: "8px" }}
           onClick={() => toggleExpanded(node.path)}>
           <span className="flex-shrink-0 w-3">{expanded ? "▼" : "▶"}</span>
