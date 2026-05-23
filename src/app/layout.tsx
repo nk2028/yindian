@@ -1,18 +1,10 @@
 import type { Metadata } from "next";
-import { Noto_Sans_PhagsPa } from "next/font/google";
 import Script from "next/script";
 import "./index.css";
 
-const notoSansPhagsPa = Noto_Sans_PhagsPa({
-  display: "swap",
-  subsets: ["phags-pa"],
-  variable: "--font-phags-pa",
-  weight: "400",
-});
-
 export const metadata: Metadata = {
   title: "音典網頁版 - 漢字語音查詢工具",
-  description: "漢字音典（Yindian）是全面收集漢字讀音的資料庫，支持千餘種語言變體的讀音對比查詢。",
+  description: "漢字音典（Yindian）是全面收集漢字讀音的資料庫，支援千餘種語言變體的讀音對比查詢。",
   keywords: [
     "漢字讀音",
     "音典",
@@ -39,10 +31,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-HK" className={notoSansPhagsPa.variable}>
+    <html lang="zh-HK">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+PhagsPa&display=swap" />
         <link rel="stylesheet" href="https://cdn.syv.red/gh/SBBWeb_v1_9/SBBWeb.css" />
         <link
           rel="stylesheet"

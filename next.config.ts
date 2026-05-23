@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  reactCompiler: true,
   basePath: "/yindian",
+  devIndicators: false,
 };
 
 export default nextConfig;

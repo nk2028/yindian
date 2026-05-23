@@ -14,7 +14,7 @@ import type {
   Pages,
   CharacterResultTable,
 } from "@/types";
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { fetchLanguages } from "@/lib/api";
 
 interface AppContextValue {
@@ -53,6 +53,10 @@ interface AppContextValue {
 const AppContext = createContext<AppContextValue | undefined>(undefined);
 
 const detectSystemTheme = (): Theme => {
+  if (typeof window === "undefined") {
+    return "light";
+  }
+
   try {
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     return prefersDark ? "dark" : "light";
@@ -66,26 +70,56 @@ const DEFAULT_中原音韻字段: 中原音韻字段[] = ["unt"];
 // https://github.com/osfans/MCPDict/blob/aee3606025410afc1be5c6f5bf1bd95ae8f237bf/app/src/main/res/values/strings.xml#L218-L221
 const DEFAULT_東干甘肅話字段: 東干甘肅話字段[] = ["音標", "西里爾字母"];
 
-const DEFAULT_SETTINGS: UserSettings = {
+const createDefaultSettings = (): UserSettings => ({
   displayMode: "地圖集二",
   selectedLanguages: new Set<number>(),
   廣韻字段: new Set<廣韻字段>(["切韻拼音", "切韻音系描述", "unt(2022)擬音"]), // Default fields
   中原音韻字段: new Set<中原音韻字段>(DEFAULT_中原音韻字段),
   東干甘肅話字段: new Set<東干甘肅話字段>(DEFAULT_東干甘肅話字段),
   theme: detectSystemTheme(), // Default theme based on system preference
-};
+});
 
 const DEFAULT_LANGUAGE: Language = "zh_HK";
 
 const DISPLAY_LANGUAGE_KEY = "yindian-language";
 
 export const getCachedDisplayLanguage = (): Language | null => {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
   try {
     const cached = localStorage.getItem(DISPLAY_LANGUAGE_KEY);
     if (!cached) return null;
     return cached as Language;
   } catch {
     return null;
+  }
+};
+
+const loadInitialSettings = (): UserSettings => {
+  if (typeof window === "undefined") {
+    return createDefaultSettings();
+  }
+
+  try {
+    const saved = localStorage.getItem("yindian-settings");
+    if (!saved) {
+      return createDefaultSettings();
+    }
+
+    const parsed = JSON.parse(saved);
+    return {
+      displayMode: parsed.displayMode as DisplayMode,
+      selectedLanguages: new Set(parsed.selectedLanguages || []),
+      廣韻字段: new Set<廣韻字段>(parsed.廣韻字段 || ["切韻拼音", "切韻音系描述", "unt(2022)擬音"]),
+      中原音韻字段: new Set<中原音韻字段>(parsed.中原音韻字段 || DEFAULT_中原音韻字段),
+      東干甘肅話字段: new Set<東干甘肅話字段>(parsed.東干甘肅話字段 || DEFAULT_東干甘肅話字段),
+      theme: parsed.theme || detectSystemTheme(),
+    };
+  } catch (e) {
+    console.error("Failed to load settings:", e);
+    return createDefaultSettings();
   }
 };
 
@@ -97,29 +131,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [queryResults, setQueryResults] = useState<CharacterResultTable<string[]> | null>(null);
   const [page, setPage] = useState<Pages>("query");
   const [language, setLanguageState] = useState<Language>(getCachedDisplayLanguage() || DEFAULT_LANGUAGE);
-  const [settings, setSettings] = useState<UserSettings>(() => {
-    // Try to load settings from localStorage
-    try {
-      const saved = localStorage.getItem("yindian-settings");
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        return {
-          displayMode: parsed.displayMode as DisplayMode,
-          selectedLanguages: new Set(parsed.selectedLanguages || []),
-          廣韻字段: new Set<廣韻字段>(parsed.廣韻字段 || ["切韻拼音", "切韻音系描述", "unt(2022)擬音"]),
-          中原音韻字段: new Set<中原音韻字段>(parsed.中原音韻字段 || DEFAULT_中原音韻字段),
-          東干甘肅話字段: new Set<東干甘肅話字段>(parsed.東干甘肅話字段 || DEFAULT_東干甘肅話字段),
-          theme: parsed.theme || detectSystemTheme(),
-        };
-      }
-    } catch (e) {
-      console.error("Failed to load settings:", e);
-    }
-    return DEFAULT_SETTINGS;
-  });
+  const [settings, setSettings] = useState<UserSettings>(loadInitialSettings);
 
   // Save settings to localStorage whenever they change
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
     try {
       localStorage.setItem(
         "yindian-settings",
@@ -165,13 +184,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // Process languages based on current display mode
-  const processedLanguages = processLanguages(rawLanguages, settings.displayMode);
+  const processedLanguages = useMemo(
+    () => processLanguages(rawLanguages, settings.displayMode),
+    [rawLanguages, settings.displayMode],
+  );
 
-  const updateDisplayMode = (mode: DisplayMode) => {
+  const updateDisplayMode = useCallback((mode: DisplayMode) => {
     setSettings(prev => ({ ...prev, displayMode: mode }));
-  };
+  }, []);
 
-  const toggleLanguage = (langId: number) => {
+  const toggleLanguage = useCallback((langId: number) => {
     setSettings(prev => {
       const newSelected = new Set(prev.selectedLanguages);
       if (newSelected.has(langId)) {
@@ -181,18 +203,18 @@ export function AppProvider({ children }: { children: ReactNode }) {
       }
       return { ...prev, selectedLanguages: newSelected };
     });
-  };
+  }, []);
 
-  const selectAllLanguages = () => {
+  const selectAllLanguages = useCallback(() => {
     const allIds = new Set(rawLanguages.map(lang => Number(lang[0])));
     setSettings(prev => ({ ...prev, selectedLanguages: allIds }));
-  };
+  }, [rawLanguages]);
 
-  const deselectAllLanguages = () => {
+  const deselectAllLanguages = useCallback(() => {
     setSettings(prev => ({ ...prev, selectedLanguages: new Set() }));
-  };
+  }, []);
 
-  const toggle廣韻字段 = (field: 廣韻字段) => {
+  const toggle廣韻字段 = useCallback((field: 廣韻字段) => {
     setSettings(prev => {
       const newFields = new Set(prev.廣韻字段);
       if (newFields.has(field)) {
@@ -202,9 +224,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       }
       return { ...prev, 廣韻字段: newFields };
     });
-  };
+  }, []);
 
-  const toggle中原音韻字段 = (field: 中原音韻字段) => {
+  const toggle中原音韻字段 = useCallback((field: 中原音韻字段) => {
     setSettings(prev => {
       const newFields = new Set(prev.中原音韻字段);
       if (newFields.has(field)) {
@@ -214,9 +236,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       }
       return { ...prev, 中原音韻字段: newFields };
     });
-  };
+  }, []);
 
-  const toggle東干甘肅話字段 = (field: 東干甘肅話字段) => {
+  const toggle東干甘肅話字段 = useCallback((field: 東干甘肅話字段) => {
     setSettings(prev => {
       const newFields = new Set(prev.東干甘肅話字段);
       if (newFields.has(field)) {
@@ -226,44 +248,66 @@ export function AppProvider({ children }: { children: ReactNode }) {
       }
       return { ...prev, 東干甘肅話字段: newFields };
     });
-  };
+  }, []);
 
-  const updateTheme = (theme: Theme) => {
+  const updateTheme = useCallback((theme: Theme) => {
     setSettings(prev => ({ ...prev, theme }));
-  };
+  }, []);
 
-  const setDisplayLanguage = (lang: Language) => {
+  const setDisplayLanguage = useCallback((lang: Language) => {
     setLanguageState(lang);
     try {
       localStorage.setItem(DISPLAY_LANGUAGE_KEY, lang);
     } catch (e) {
       console.error("Failed to save language:", e);
     }
-  };
+  }, []);
 
-  const value: AppContextValue = {
-    rawLanguages,
-    processedLanguages,
-    isLoadingLanguages,
-    languagesError,
-    settings,
-    updateDisplayMode,
-    page,
-    setPage,
-    toggleLanguage,
-    selectAllLanguages,
-    deselectAllLanguages,
-    toggle廣韻字段,
-    toggle中原音韻字段,
-    toggle東干甘肅話字段,
-    updateTheme,
-    language,
-    setDisplayLanguage,
-    queryInput,
-    setQueryInput,
-    queryResults,
-    setQueryResults,
-  };
+  const value: AppContextValue = useMemo(
+    () => ({
+      rawLanguages,
+      processedLanguages,
+      isLoadingLanguages,
+      languagesError,
+      settings,
+      updateDisplayMode,
+      page,
+      setPage,
+      toggleLanguage,
+      selectAllLanguages,
+      deselectAllLanguages,
+      toggle廣韻字段,
+      toggle中原音韻字段,
+      toggle東干甘肅話字段,
+      updateTheme,
+      language,
+      setDisplayLanguage,
+      queryInput,
+      setQueryInput,
+      queryResults,
+      setQueryResults,
+    }),
+    [
+      rawLanguages,
+      processedLanguages,
+      isLoadingLanguages,
+      languagesError,
+      settings,
+      updateDisplayMode,
+      page,
+      toggleLanguage,
+      selectAllLanguages,
+      deselectAllLanguages,
+      toggle廣韻字段,
+      toggle中原音韻字段,
+      toggle東干甘肅話字段,
+      updateTheme,
+      language,
+      setDisplayLanguage,
+      queryInput,
+      queryResults,
+    ],
+  );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
