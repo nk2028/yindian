@@ -71,8 +71,7 @@ export default function Settings() {
     const roots: TreeNode[] = [];
 
     for (const [region, langs] of languagesByRegion) {
-      if (!region) continue;
-      const parts = region.split("－");
+      const parts = (region || "—").split("－");
 
       for (let depth = 0; depth < parts.length; depth++) {
         const path = parts.slice(0, depth + 1).join("－");
@@ -131,6 +130,8 @@ export default function Settings() {
     return (
       <div key={node.path} className="border-b border-border last:border-b-0">
         <button
+          type="button"
+          aria-expanded={expanded}
           className="w-full text-left text-xs font-bold py-1 flex items-center gap-1 hover:brightness-90 transition-all"
           style={{ backgroundColor: hasColor ? node.color : undefined, color: textColor, paddingLeft: `${8 + depth * 12}px`, paddingRight: "8px" }}
           onClick={() => toggleExpanded(node.path)}>
